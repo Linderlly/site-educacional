@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Excel - Início</title>
+    <link rel="stylesheet" href="./CSS/style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Bem-vindo ao Quiz de Excel</h1>
+        <p>Insira seu nome para começar:</p>
+        <input type="text" id="username" placeholder="Seu nome">
+        <button onclick="startQuiz()">Iniciar</button>
+    </div>
+
+    <script>
+        function startQuiz() {
+            const name = document.getElementById("username").value.trim();
+            if (name !== "") {
+                localStorage.setItem("username", name);
+                window.location.href = "/HTML/quiz.html";
+            } else {
+                alert("Por favor, insira seu nome!");
+            }
+        }
+    </script>
+</body>
+</html>
