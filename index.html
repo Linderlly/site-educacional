@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz de Excel - Início</title>
+    <link rel="icon" href="./img/icon-excel.png" type="image/x-icon">
     <link rel="stylesheet" href="./CSS/style.css">
+    <link rel="stylesheet" href="./CSS/stylepg.css">
 </head>
 <body>
     <div class="container">
@@ -17,13 +19,21 @@
     <script>
         function startQuiz() {
             const name = document.getElementById("username").value.trim();
-            if (name !== "") {
+            
+            if (name.length >= 3) {
                 localStorage.setItem("username", name);
                 window.location.href = "./HTML/quiz.html";
             } else {
-                alert("Por favor, insira seu nome!");
+                alert("O nome deve ter pelo menos 3 caracteres!");
             }
         }
+
+        // Permitir pressionar "Enter" para iniciar
+        document.getElementById("username").addEventListener("keypress", function(event) {
+            if (event.key === "Enter") {
+                startQuiz();
+            }
+        });
     </script>
 </body>
 </html>

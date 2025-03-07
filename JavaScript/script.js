@@ -8,21 +8,20 @@ document.addEventListener("DOMContentLoaded", function () {
         { type: "text", question: "Qual atalho para salvar um arquivo no Excel?", answer: ["Ctrl + S", "ctrl+s", "ctrl + s", "CTRL+S", "CTRL + S", "Ctrl+S", "CTRL + s", "CTRL+s"]},
         { type: "text", question: "Qual o atalho para fechar o Excel?", answer: ["Ctrl + W", "ctrl+w", "ctrl + W", "CTRL+W", "CTRL + W", "Ctrl+W", "CTRL + w", "CTRL+w"]},
         { type: "text", question: "Qual o atalho para abrir uma nova planilha?", answer: ["Ctrl + N", "ctrl+n", "ctrl + n", "CTRL+N", "CTRL + N", "Ctrl+N", "CTRL + n", "CTRL+n"] },
-        { type: "multiple", question: "Qual função busca valores na vertical?", options: ["PROCV", "ÍNDICE", "CORRESP", "SOMASE"], answer: "PROCV" },
-        { type: "multiple", question: "Qual função busca valores na horizontal?", options: ["HLOOKUP", "PROCV", "ÍNDICE", "MÍNIMO"], answer: "HLOOKUP" },
+        { type: "multiple", question: "Qual função busca valores na horizontal?", options: ["PROCH", "PROCV", "ÍNDICE", "MÍNIMO"], answer: "PROCH" },
         { type: "multiple", question: "O que faz a função ÍNDICE?", options: ["Retorna o valor de uma célula específica", "Soma valores", "Conta células", "Filtra dados"], answer: "Retorna o valor de uma célula específica" },
         { type: "multiple", question: "O que faz a função SE?", options: ["Soma valores", "Verifica uma condição", "Filtra dados", "Conta células"], answer: "Verifica uma condição" },
-        { type: "text", question: "Como escrever uma função SE que retorna 'Aprovado' se a nota for maior ou igual a 7 e 'Reprovado' caso contrário?", answer: [`=SE(A1>=7; "Aprovado"; "Reprovado")`] },
+        { type: "text", question: "Como escrever uma função SE que retorna 'Aprovado' se a nota for maior ou igual a 7 e 'Reprovado' caso contrário?", answer: [`=SE(A1>=7;"Aprovado";"Reprovado")`,`=se(A1>=7;"aprovado";"reprovado")`] },
         { type: "multiple", question: "O que faz a função CONCATENAR?", options: ["Junta textos", "Soma números", "Cria gráficos", "Busca valores"], answer: "Junta textos" },
-        { type: "text", question: "Qual a função que retorna o tamanho de um texto no Excel?", answer: "NÚM.CARACT" },
+        { type: "text", question: "Qual a função que retorna o tamanho de um texto no Excel?", answer: ["NÚM.CARACT", "num.caract"] },
         { type: "multiple", question: "Qual guia do Excel permite criar gráficos?", options: ["Inserir", "Dados", "Fórmulas", "Página Inicial"], answer: "Inserir" },
         { type: "multiple", question: "O que é uma Tabela Dinâmica?", options: ["Uma função de soma", "Um tipo de gráfico", "Uma ferramenta para análise de dados", "Um atalho de teclado"], answer: "Uma ferramenta para análise de dados" },
         { type: "multiple", question: "O que significa uma referência absoluta no Excel?", options: ["Uma referência fixa", "Uma referência variável", "Um número inteiro", "Um erro de célula"], answer: "Uma referência fixa" },
-        { type: "text", question: "Como escrever uma referência absoluta para a célula A1?", answer: "$A$1" },
+        { type: "text", question: "Como escrever uma referência absoluta para a célula A1?", answer: ["$A$1"] },
         { type: "multiple", question: "O que significa o erro #DIV/0!?", options: ["Célula vazia", "Divisão por zero", "Erro de sintaxe", "Função desconhecida"], answer: "Divisão por zero" },
         { type: "multiple", question: "O que significa o erro #NOME?", options: ["Erro de fórmula", "Erro de célula", "Fórmula com referência inválida", "Falta de memória"], answer: "Erro de fórmula" },
         { type: "multiple", question: "O que faz a função ARRED?", options: ["Arredonda um número", "Calcula a raiz quadrada", "Conta células", "Soma valores"], answer: "Arredonda um número" },
-        { type: "text", question: "Qual função retorna o menor valor de um intervalo?", answer: "MÍNIMO" },
+        { type: "text", question: "Qual função retorna o menor valor de um intervalo?", answer: ["MÍNIMO"] },
         { type: "multiple", question: "O que faz a função HOJE?", options: ["Retorna a data atual", "Soma datas", "Formata células", "Exclui valores"], answer: "Retorna a data atual" }
     ];
 
@@ -65,18 +64,25 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentQuestion = questions[currentQuestionIndex];
         let correctAnswerText = document.getElementById("correct-answer");
 
+        // Desabilitar clique nas opções após a escolha
         document.querySelectorAll("#options li").forEach(li => {
-            if (currentQuestion.answer.includes(li.textContent)) {
+            // Se for a resposta correta, marca verde
+            if (currentQuestion.answer === li.textContent) {
                 li.classList.add("correct");
+                li.style.backgroundColor = "green"; // Marca como verde
             } else {
                 li.classList.add("incorrect");
+                li.style.backgroundColor = "red"; // Marca como vermelho
             }
             li.style.pointerEvents = "none";
         });
-        if (Array.isArray(currentQuestion.answer) ? currentQuestion.answer.includes(selectedOption) : currentQuestion.answer === selectedOption) {
+
+        // Verificar se a resposta selecionada está correta
+        if (currentQuestion.answer === selectedOption) {
             score++;
         } else {
-            correctAnswerText.textContent = `Resposta correta: ${Array.isArray(currentQuestion.answer) ? currentQuestion.answer.join(" ou ") : currentQuestion.answer}`;
+            // Mostrar apenas a primeira resposta correta
+            correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer}`;
             correctAnswerText.style.display = "block";
         }
         
@@ -96,7 +102,8 @@ document.addEventListener("DOMContentLoaded", function () {
             score++;
         } else {
             textInput.style.borderColor = "red";
-            correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer.join(" ou ")}`;
+            // Mostrar apenas a primeira resposta correta
+            correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer[0]}`;
             correctAnswerText.style.display = "block";
         }
 
@@ -144,7 +151,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.restartQuiz = function () {
-        window.location.href = "paginainicial.html";
+        window.location.href = "index.html";
     };
 
     loadQuestion();
