@@ -1,53 +1,76 @@
 body {
     font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
-    text-align: center;
+    background: linear-gradient(135deg, #1E6B34, #107C41, #33A852);
     padding: 20px;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
 }
 
 .container {
     background: white;
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background: white url('/site-educacional/img/icon-excel.png') no-repeat center;
     max-width: 500px;
-    margin: auto;
+    width: 90%;
+    color: black;
+    text-align: center;
 }
 
 h1 {
-    color: #2c3e50;
+    margin-top: 0%;
+    color: black;
 }
 
 #quiz-container {
     margin-top: 20px;
+    padding: 20px;
+    font-weight: bold;
+    font-size: large;
+    border-radius: 10px;
+    background-size: contain;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
 ul {
     list-style: none;
     padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 li {
-    background: #3498db;
-    color: white;
+    background: rgba(52, 152, 219, 0.7); /* Azul mais transparente */
+    color: black; /* Fonte preta para melhor visibilidade */
     padding: 10px;
     margin: 5px 0;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
+    width: 80%;
+    text-align: center;
 }
 
 li:hover {
-    background: #2980b9;
+    background: rgba(41, 128, 185, 0.7); /* Tom mais escuro também transparente */
 }
 
 button {
     margin-top: 10px;
-    padding: 10px;
-    background: #27ae60;
+    padding: 8px 12px; /* Botões menores */
+    font-size: 14px;
+    background: #107C41;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-weight: bold;
 }
 
 button:disabled {
@@ -61,12 +84,13 @@ input {
     margin: 10px 0;
     border: 1px solid #ccc;
     border-radius: 5px;
+    text-align: center;
 }
 
 .correct {
-    background-color: #2ecc71 !important;
+    background-color: #2ECC71 !important;
 }
 
 .incorrect {
-    background-color: #e74c3c !important;
+    background-color: #E74C3C !important;
 }

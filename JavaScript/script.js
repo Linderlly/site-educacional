@@ -42,6 +42,7 @@ document.addEventListener("DOMContentLoaded", function () {
         optionsList.innerHTML = "";
         textInput.style.display = "none";
         textInput.value = "";
+        textInput.removeAttribute("readonly");
         correctAnswerText.style.display = "none";
         correctAnswerText.textContent = "";
         checkButton.style.display = "inline-block";
@@ -64,24 +65,20 @@ document.addEventListener("DOMContentLoaded", function () {
         let currentQuestion = questions[currentQuestionIndex];
         let correctAnswerText = document.getElementById("correct-answer");
 
-        // Desabilitar clique nas opções após a escolha
         document.querySelectorAll("#options li").forEach(li => {
-            // Se for a resposta correta, marca verde
             if (currentQuestion.answer === li.textContent) {
                 li.classList.add("correct");
-                li.style.backgroundColor = "green"; // Marca como verde
+                li.style.backgroundColor = "green";
             } else {
                 li.classList.add("incorrect");
-                li.style.backgroundColor = "red"; // Marca como vermelho
+                li.style.backgroundColor = "red";
             }
             li.style.pointerEvents = "none";
         });
 
-        // Verificar se a resposta selecionada está correta
         if (currentQuestion.answer === selectedOption) {
             score++;
         } else {
-            // Mostrar apenas a primeira resposta correta
             correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer}`;
             correctAnswerText.style.display = "block";
         }
@@ -102,10 +99,11 @@ document.addEventListener("DOMContentLoaded", function () {
             score++;
         } else {
             textInput.style.borderColor = "red";
-            // Mostrar apenas a primeira resposta correta
             correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer[0]}`;
             correctAnswerText.style.display = "block";
         }
+
+        textInput.setAttribute("readonly", true);
 
         document.getElementById("check-btn").style.display = "none";
         document.getElementById("next-btn").disabled = false;
@@ -136,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
         let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
         ranking.push({ name, score });
         ranking.sort((a, b) => b.score - a.score);
-        localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10))); // Apenas os 10 melhores
+        localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10)));
     }
 
     function displayRanking() {

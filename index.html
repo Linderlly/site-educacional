@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz de Excel - Início</title>
     <link rel="icon" href="./img/icon-excel.png" type="image/x-icon">
-    <link rel="stylesheet" href="./CSS/style.css">
     <link rel="stylesheet" href="./CSS/stylepg.css">
 </head>
 <body>
@@ -27,8 +26,6 @@
                 alert("O nome deve ter pelo menos 3 caracteres!");
             }
         }
-
-        // Permitir pressionar "Enter" para iniciar
         document.getElementById("username").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 startQuiz();
