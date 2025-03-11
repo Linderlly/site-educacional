@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     const questions = [
         { type: "multiple", question: "Qual fórmula soma um intervalo no Excel?", options: ["=SOMA(A1:A10)", "=SOMAR(A1:A10)", "=ADD(A1:A10)", "=SUMAR(A1:A10)"], answer: "=SOMA(A1:A10)" },
-        { type: "multiple", question: "Qual função busca valores na vertical?", options: ["PROCV", "ÍNDICE", "CORRESP", "SOMASE"], answer: "PROCV" },
+        { type: "multiple", question: "Qual função busca valores na vertical?", options: ["SOMASE", "ÍNDICE", "CORRESP", "PROCV"], answer: "PROCV" },
         { type: "text", question: "Qual atalho para salvar um arquivo no Excel?", answer: ["Ctrl + S", "ctrl+s", "ctrl + s", "CTRL+S", "CTRL + S", "Ctrl+S", "CTRL + s", "CTRL+s"]},
         { type: "text", question: "Qual o atalho para fechar o Excel?", answer: ["Ctrl + W", "ctrl+w", "ctrl + W", "CTRL+W", "CTRL + W", "Ctrl+W", "CTRL + w", "CTRL+w"]},
         { type: "text", question: "Qual o atalho para abrir uma nova planilha?", answer: ["Ctrl + N", "ctrl+n", "ctrl + n", "CTRL+N", "CTRL + N", "Ctrl+N", "CTRL + n", "CTRL+n"] },
@@ -14,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
         { type: "text", question: "Como escrever uma função SE que retorna 'Aprovado' se a nota for maior ou igual a 7 e 'Reprovado' caso contrário?", answer: [`=SE(A1>=7;"Aprovado";"Reprovado")`,`=se(A1>=7;"aprovado";"reprovado")`] },
         { type: "multiple", question: "O que faz a função CONCATENAR?", options: ["Junta textos", "Soma números", "Cria gráficos", "Busca valores"], answer: "Junta textos" },
         { type: "text", question: "Qual a função que retorna o tamanho de um texto no Excel?", answer: ["NÚM.CARACT", "num.caract"] },
-        { type: "multiple", question: "Qual guia do Excel permite criar gráficos?", options: ["Inserir", "Dados", "Fórmulas", "Página Inicial"], answer: "Inserir" },
+        { type: "multiple", question: "Qual guia do Excel permite criar gráficos?", options: ["Página inicial", "Dados", "Fórmulas", "Inserir"], answer: "Inserir" },
         { type: "multiple", question: "O que é uma Tabela Dinâmica?", options: ["Uma função de soma", "Um tipo de gráfico", "Uma ferramenta para análise de dados", "Um atalho de teclado"], answer: "Uma ferramenta para análise de dados" },
         { type: "multiple", question: "O que significa uma referência absoluta no Excel?", options: ["Uma referência fixa", "Uma referência variável", "Um número inteiro", "Um erro de célula"], answer: "Uma referência fixa" },
         { type: "text", question: "Como escrever uma referência absoluta para a célula A1?", answer: ["$A$1"] },
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", function () {
         { type: "multiple", question: "O que significa o erro #NOME?", options: ["Erro de fórmula", "Erro de célula", "Fórmula com referência inválida", "Falta de memória"], answer: "Erro de fórmula" },
         { type: "multiple", question: "O que faz a função ARRED?", options: ["Arredonda um número", "Calcula a raiz quadrada", "Conta células", "Soma valores"], answer: "Arredonda um número" },
         { type: "text", question: "Qual função retorna o menor valor de um intervalo?", answer: ["MÍNIMO"] },
-        { type: "multiple", question: "O que faz a função HOJE?", options: ["Retorna a data atual", "Soma datas", "Formata células", "Exclui valores"], answer: "Retorna a data atual" }
+        { type: "multiple", question: "O que faz a função HOJE?", options: ["Formata células", "Soma datas", "Retorna a data atual", "Exclui valores"], answer: "Retorna a data atual" }
     ];
 
     let currentQuestionIndex = 0;
@@ -117,6 +117,7 @@ document.addEventListener("DOMContentLoaded", function () {
             finishQuiz();
         }
     });
+    
 
     function finishQuiz() {
         const container = document.querySelector(".container");
