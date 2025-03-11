@@ -5,13 +5,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const questions = [
         { type: "multiple", question: "Qual fórmula soma um intervalo no Excel?", options: ["=SOMA(A1:A10)", "=SOMAR(A1:A10)", "=ADD(A1:A10)", "=SUMAR(A1:A10)"], answer: "=SOMA(A1:A10)" },
         { type: "multiple", question: "Qual função busca valores na vertical?", options: ["SOMASE", "ÍNDICE", "CORRESP", "PROCV"], answer: "PROCV" },
-        { type: "text", question: "Qual atalho para salvar um arquivo no Excel?", answer: ["Ctrl + S", "ctrl+s", "ctrl + s", "CTRL+S", "CTRL + S", "Ctrl+S", "CTRL + s", "CTRL+s"]},
-        { type: "text", question: "Qual o atalho para fechar o Excel?", answer: ["Ctrl + W", "ctrl+w", "ctrl + W", "CTRL+W", "CTRL + W", "Ctrl+W", "CTRL + w", "CTRL+w"]},
+        { type: "text", question: "Qual atalho para salvar um arquivo no Excel?", answer: ["Ctrl + S", "ctrl+s", "ctrl + s", "CTRL+S", "CTRL + S", "Ctrl+S", "CTRL + s", "CTRL+s"] },
+        { type: "text", question: "Qual o atalho para fechar o Excel?", answer: ["Ctrl + W", "ctrl+w", "ctrl + W", "CTRL+W", "CTRL + W", "Ctrl+W", "CTRL + w", "CTRL+w"] },
         { type: "text", question: "Qual o atalho para abrir uma nova planilha?", answer: ["Ctrl + N", "ctrl+n", "ctrl + n", "CTRL+N", "CTRL + N", "Ctrl+N", "CTRL + n", "CTRL+n"] },
         { type: "multiple", question: "Qual função busca valores na horizontal?", options: ["PROCH", "PROCV", "ÍNDICE", "MÍNIMO"], answer: "PROCH" },
         { type: "multiple", question: "O que faz a função ÍNDICE?", options: ["Retorna o valor de uma célula específica", "Soma valores", "Conta células", "Filtra dados"], answer: "Retorna o valor de uma célula específica" },
         { type: "multiple", question: "O que faz a função SE?", options: ["Soma valores", "Verifica uma condição", "Filtra dados", "Conta células"], answer: "Verifica uma condição" },
-        { type: "text", question: "Como escrever uma função SE que retorna 'Aprovado' se a nota for maior ou igual a 7 e 'Reprovado' caso contrário?", answer: [`=SE(A1>=7;"Aprovado";"Reprovado")`,`=se(A1>=7;"aprovado";"reprovado")`] },
+        { type: "text", question: "Como escrever uma função SE que retorna 'Aprovado' se a nota for maior ou igual a 7 e 'Reprovado' caso contrário?", answer: [`=SE(A1>=7;"Aprovado";"Reprovado")`, `=se(A1>=7;"aprovado";"reprovado")`] },
         { type: "multiple", question: "O que faz a função CONCATENAR?", options: ["Junta textos", "Soma números", "Cria gráficos", "Busca valores"], answer: "Junta textos" },
         { type: "text", question: "Qual a função que retorna o tamanho de um texto no Excel?", answer: ["NÚM.CARACT", "num.caract"] },
         { type: "multiple", question: "Qual guia do Excel permite criar gráficos?", options: ["Página inicial", "Dados", "Fórmulas", "Inserir"], answer: "Inserir" },
@@ -28,7 +28,14 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentQuestionIndex = 0;
     let score = 0;
 
+    function updateProgress() {
+        const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
+        document.getElementById("progress").style.width = `${progress}%`;
+    }
+
     function loadQuestion() {
+        updateProgress();
+
         const questionElement = document.getElementById("question");
         const optionsList = document.getElementById("options");
         const textInput = document.getElementById("text-answer");
@@ -82,7 +89,7 @@ document.addEventListener("DOMContentLoaded", function () {
             correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer}`;
             correctAnswerText.style.display = "block";
         }
-        
+
         document.getElementById("check-btn").style.display = "none";
         document.getElementById("next-btn").disabled = false;
     }
@@ -117,7 +124,6 @@ document.addEventListener("DOMContentLoaded", function () {
             finishQuiz();
         }
     });
-    
 
     function finishQuiz() {
         const container = document.querySelector(".container");
@@ -150,7 +156,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.restartQuiz = function () {
-        window.location.href = "index.html";
+        window.location.href = "/site-educacional/index.html";
     };
 
     loadQuestion();

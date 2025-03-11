@@ -9,23 +9,38 @@
 </head>
 <body>
     <div class="container">
+        <button id="toggle-dark-mode" aria-label="Alternar modo escuro">🌙</button>
         <h1>Bem-vindo ao Quiz de Excel</h1>
         <p>Insira seu nome para começar:</p>
-        <input type="text" id="username" placeholder="Seu nome">
+        <input type="text" id="username" placeholder="Seu nome" aria-describedby="name-help">
+        <p id="name-help" style="color: #e74c3c; display: none;">O nome deve ter pelo menos 3 caracteres e conter apenas letras e espaços.</p>
         <button onclick="startQuiz()">Iniciar</button>
     </div>
 
     <script>
+        const isDarkMode = localStorage.getItem("darkMode") === "true";
+        if (isDarkMode) {
+            document.body.classList.add("dark-mode");
+        }
+
+        document.getElementById("toggle-dark-mode").addEventListener("click", function() {
+            document.body.classList.toggle("dark-mode");
+            const isDarkMode = document.body.classList.contains("dark-mode");
+            localStorage.setItem("darkMode", isDarkMode);
+        });
+
         function startQuiz() {
             const name = document.getElementById("username").value.trim();
-            
-            if (name.length >= 3) {
+            const nameHelp = document.getElementById("name-help");
+
+            if (name.length >= 3 && /^[a-zA-Z\s]+$/.test(name)) {
                 localStorage.setItem("username", name);
                 window.location.href = "./HTML/quiz.html";
             } else {
-                alert("O nome deve ter pelo menos 3 caracteres!");
+                nameHelp.style.display = "block";
             }
         }
+
         document.getElementById("username").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 startQuiz();
