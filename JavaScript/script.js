@@ -88,11 +88,13 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (currentQuestion.answer === selectedOption) {
             score++;
-            correctSound.play(); 
+            correctSound.currentTime = 0;
+            correctSound.play();
         } else {
             correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer}`;
             correctAnswerText.style.display = "block";
-            incorrectSound.play(); 
+            incorrectSound.currentTime = 0;
+            incorrectSound.play();
         }
 
         document.getElementById("check-btn").style.display = "none";
@@ -106,13 +108,19 @@ document.addEventListener("DOMContentLoaded", function () {
 
         let userAnswer = textInput.value.trim().toLowerCase();
 
+        correctSound.pause();
+        incorrectSound.pause();
+
         if (currentQuestion.answer.some(correct => correct.toLowerCase() === userAnswer)) {
             textInput.style.borderColor = "green";
             score++;
+            correctSound.currentTime = 0;
             correctSound.play();
+        } else {
             textInput.style.borderColor = "red";
             correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer[0]}`;
             correctAnswerText.style.display = "block";
+            incorrectSound.currentTime = 0;
             incorrectSound.play();
         }
 
