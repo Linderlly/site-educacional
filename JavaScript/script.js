@@ -2,6 +2,9 @@ document.addEventListener("DOMContentLoaded", function () {
     const playerName = localStorage.getItem("username") || "Aluno";
     document.getElementById("player-name").textContent = `Jogador: ${playerName}`;
 
+    const correctSound = document.getElementById("correct-sound");
+    const incorrectSound = document.getElementById("incorrect-sound");
+
     const questions = [
         { type: "multiple", question: "Qual fórmula soma um intervalo no Excel?", options: ["=SOMA(A1:A10)", "=SOMAR(A1:A10)", "=ADD(A1:A10)", "=SUMAR(A1:A10)"], answer: "=SOMA(A1:A10)" },
         { type: "multiple", question: "Qual função busca valores na vertical?", options: ["SOMASE", "ÍNDICE", "CORRESP", "PROCV"], answer: "PROCV" },
@@ -21,7 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
         { type: "multiple", question: "O que significa o erro #DIV/0!?", options: ["Célula vazia", "Divisão por zero", "Erro de sintaxe", "Função desconhecida"], answer: "Divisão por zero" },
         { type: "multiple", question: "O que significa o erro #NOME?", options: ["Erro de fórmula", "Erro de célula", "Fórmula com referência inválida", "Falta de memória"], answer: "Erro de fórmula" },
         { type: "multiple", question: "O que faz a função ARRED?", options: ["Arredonda um número", "Calcula a raiz quadrada", "Conta células", "Soma valores"], answer: "Arredonda um número" },
-        { type: "text", question: "Qual função retorna o menor valor de um intervalo?", answer: ["MÍNIMO"] },
+        { type: "text", question: "Qual função retorna o menor valor de um intervalo?", answer: ["MÍNIMO", "Mínimo", "mínimo"] },
         { type: "multiple", question: "O que faz a função HOJE?", options: ["Formata células", "Soma datas", "Retorna a data atual", "Exclui valores"], answer: "Retorna a data atual" }
     ];
 
@@ -85,9 +88,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
         if (currentQuestion.answer === selectedOption) {
             score++;
+            correctSound.play(); 
         } else {
             correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer}`;
             correctAnswerText.style.display = "block";
+            incorrectSound.play(); 
         }
 
         document.getElementById("check-btn").style.display = "none";
@@ -104,10 +109,11 @@ document.addEventListener("DOMContentLoaded", function () {
         if (currentQuestion.answer.some(correct => correct.toLowerCase() === userAnswer)) {
             textInput.style.borderColor = "green";
             score++;
-        } else {
+            correctSound.play();
             textInput.style.borderColor = "red";
             correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer[0]}`;
             correctAnswerText.style.display = "block";
+            incorrectSound.play();
         }
 
         textInput.setAttribute("readonly", true);
@@ -156,7 +162,7 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     window.restartQuiz = function () {
-        window.location.href = "/site-educacional/index.html";
+        window.location.href = "index.html";
     };
 
     loadQuestion();
