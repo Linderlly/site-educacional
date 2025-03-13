@@ -2,6 +2,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const playerName = localStorage.getItem("username") || "Aluno";
     document.getElementById("player-name").textContent = `Jogador: ${playerName}`;
 
+  
     const correctSound = document.getElementById("correct-sound");
     const incorrectSound = document.getElementById("incorrect-sound");
 
@@ -31,14 +32,19 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentQuestionIndex = 0;
     let score = 0;
 
+ 
     function updateProgress() {
         const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
         document.getElementById("progress").style.width = `${progress}%`;
     }
 
+    
     function loadQuestion() {
-        updateProgress();
+        
+        document.getElementById("current-question").textContent = currentQuestionIndex + 1;
+        document.getElementById("total-questions").textContent = questions.length;
 
+       
         const questionElement = document.getElementById("question");
         const optionsList = document.getElementById("options");
         const textInput = document.getElementById("text-answer");
@@ -71,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
+   
     function checkAnswer(selectedOption, selectedElement) {
         let currentQuestion = questions[currentQuestionIndex];
         let correctAnswerText = document.getElementById("correct-answer");
@@ -101,6 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("next-btn").disabled = false;
     }
 
+   
     function checkTextAnswer() {
         let currentQuestion = questions[currentQuestionIndex];
         let textInput = document.getElementById("text-answer");
@@ -130,6 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("next-btn").disabled = false;
     }
 
+
     document.getElementById("next-btn").addEventListener("click", () => {
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) {
@@ -138,6 +147,7 @@ document.addEventListener("DOMContentLoaded", function () {
             finishQuiz();
         }
     });
+
 
     function finishQuiz() {
         const container = document.querySelector(".container");
@@ -151,12 +161,14 @@ document.addEventListener("DOMContentLoaded", function () {
         displayRanking();
     }
 
+
     function saveScore(name, score) {
         let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
         ranking.push({ name, score });
         ranking.sort((a, b) => b.score - a.score);
         localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10)));
     }
+
 
     function displayRanking() {
         let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
@@ -169,9 +181,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+
     window.restartQuiz = function () {
         window.location.href = "index.html";
     };
+
 
     loadQuestion();
 });
