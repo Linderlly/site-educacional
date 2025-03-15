@@ -12,45 +12,33 @@
         <button id="toggle-dark-mode" aria-label="Alternar modo escuro">🌙</button>
         <h1 id="player-name"></h1>
         
+        <!-- Círculo de progresso -->
         <div id="progress-circle">
             <span id="current-question">1</span>/<span id="total-questions">10</span>
         </div>
-    
+
         <div id="quiz-container">
             <p id="question"></p>
             <ul id="options"></ul>
             <input type="text" id="text-answer" placeholder="Digite sua resposta..." style="display: none;">
             <p id="correct-answer" style="display: none; color: #e74c3c;"></p>
             <button id="check-btn">Verificar</button>
-            <button id="next-btn" disabled>Próxima pergunta</button>
+            <button id="next-btn" disabled>Próxima</button>
         </div>
+
+        <!-- Botões adicionais -->
+        <div id="additional-buttons">
+            <button id="view-ranking-btn">Ver Ranking</button>
+            <button id="back-to-home-btn">Voltar ao Início</button>
+        </div>
+
         <p id="result"></p>
     </div>
 
-    <audio id="correct-sound" src="/site-educacional/sons/correct.mp3"></audio>
-    <audio id="incorrect-sound" src="/site-educacional/sons/incorrect.mp3"></audio>
+    <!-- Sons de feedback -->
+    <audio id="correct-sound" src="/site-educacional/sounds/correct.mp3"></audio>
+    <audio id="incorrect-sound" src="/site-educacional/sounds/incorrect.mp3"></audio>
 
     <script src="/site-educacional/JavaScript/script.js"></script>
-    <script>
-
-        const isDarkMode = localStorage.getItem("darkMode") === "true";
-        if (isDarkMode) {
-            document.body.classList.add("dark-mode");
-        }
-
-   
-        document.getElementById("toggle-dark-mode").addEventListener("click", function() {
-            document.body.classList.toggle("dark-mode");
-            const isDarkMode = document.body.classList.contains("dark-mode");
-            localStorage.setItem("darkMode", isDarkMode);
-        });
-
-
-        document.getElementById("check-btn").addEventListener("click", function() {
-
-            document.getElementById("correct-sound").load();
-            document.getElementById("incorrect-sound").load();
-        });
-    </script>
 </body>
 </html>

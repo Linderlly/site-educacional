@@ -2,10 +2,10 @@ document.addEventListener("DOMContentLoaded", function () {
     const playerName = localStorage.getItem("username") || "Aluno";
     document.getElementById("player-name").textContent = `Jogador: ${playerName}`;
 
-  
+    // Sons de feedback
     const correctSound = document.getElementById("correct-sound");
     const incorrectSound = document.getElementById("incorrect-sound");
-
+    
     const questions = [
         { type: "multiple", question: "Qual fórmula soma um intervalo no Excel?", options: ["=SOMA(A1:A10)", "=SOMAR(A1:A10)", "=ADD(A1:A10)", "=SUMAR(A1:A10)"], answer: "=SOMA(A1:A10)" },
         { type: "multiple", question: "Qual função busca valores na vertical?", options: ["SOMASE", "ÍNDICE", "CORRESP", "PROCV"], answer: "PROCV" },
@@ -32,19 +32,19 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentQuestionIndex = 0;
     let score = 0;
 
- 
+    // Função para atualizar a barra de progresso
     function updateProgress() {
         const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
         document.getElementById("progress").style.width = `${progress}%`;
     }
 
-    
+    // Função para carregar a pergunta atual
     function loadQuestion() {
-        
+        // Atualiza o número da pergunta atual e o total de perguntas
         document.getElementById("current-question").textContent = currentQuestionIndex + 1;
         document.getElementById("total-questions").textContent = questions.length;
 
-       
+        // Restante do código da função loadQuestion...
         const questionElement = document.getElementById("question");
         const optionsList = document.getElementById("options");
         const textInput = document.getElementById("text-answer");
@@ -77,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     }
 
-   
+    // Função para verificar a resposta (múltipla escolha)
     function checkAnswer(selectedOption, selectedElement) {
         let currentQuestion = questions[currentQuestionIndex];
         let correctAnswerText = document.getElementById("correct-answer");
@@ -108,7 +108,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("next-btn").disabled = false;
     }
 
-   
+    // Função para verificar a resposta (texto)
     function checkTextAnswer() {
         let currentQuestion = questions[currentQuestionIndex];
         let textInput = document.getElementById("text-answer");
@@ -138,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("next-btn").disabled = false;
     }
 
-
+    // Avança para a próxima pergunta
     document.getElementById("next-btn").addEventListener("click", () => {
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) {
@@ -148,7 +148,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-
+    // Finaliza o quiz
     function finishQuiz() {
         const container = document.querySelector(".container");
         container.innerHTML = `<h1>Parabéns, ${playerName}!</h1>
@@ -161,7 +161,7 @@ document.addEventListener("DOMContentLoaded", function () {
         displayRanking();
     }
 
-
+    // Salva a pontuação no localStorage
     function saveScore(name, score) {
         let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
         ranking.push({ name, score });
@@ -169,7 +169,7 @@ document.addEventListener("DOMContentLoaded", function () {
         localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10)));
     }
 
-
+    // Exibe o ranking
     function displayRanking() {
         let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
         let rankingList = document.getElementById("ranking-list");
@@ -181,11 +181,33 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
+    // Botão "Ver Ranking"
+    document.getElementById("view-ranking-btn").addEventListener("click", function () {
+        const container = document.querySelector(".container");
+        container.innerHTML = `
+            <h1>Ranking dos Melhores</h1>
+            <ol id="ranking-list"></ol>
+            <button id="back-to-quiz-btn">Voltar ao Quiz</button>
+        `;
 
+        displayRanking(); // Exibe o ranking
+
+        // Botão "Voltar ao Quiz"
+        document.getElementById("back-to-quiz-btn").addEventListener("click", function () {
+            window.location.reload(); // Recarrega a página para voltar ao quiz
+        });
+    });
+
+    // Botão "Voltar ao Início"
+    document.getElementById("back-to-home-btn").addEventListener("click", function () {
+        window.location.href = "index.html"; // Redireciona para a página inicial
+    });
+
+    // Reinicia o quiz
     window.restartQuiz = function () {
         window.location.href = "index.html";
     };
 
-
+    // Carrega a primeira pergunta
     loadQuestion();
 });
