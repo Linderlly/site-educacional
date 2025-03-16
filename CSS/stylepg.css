@@ -57,7 +57,8 @@ input:focus {
 }
 
 button {
-    width: 100%;
+    font-family: Arial, Helvetica, sans-serif;
+    width: 190px;
     padding: 10px;
     background: var(--primary);
     color: white;
@@ -86,12 +87,97 @@ button:hover {
     color: var(--text-light);
 }
 
-@media (max-width: 400px) {
-    .container {
-        padding: 15px;
-    }
+#view-ranking-btn {
+    padding: 10px 20px;
+    font-size: 12px;
+    background: #107C41;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
 
-    input {
-        width: 100%;
-    }
+#view-ranking-btn:hover {
+    background: #0e6a37;
+}
+
+
+.popup {
+    display: none; 
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); 
+    z-index: 1000; 
+    opacity: 0; 
+    transition: opacity 0.3s ease; 
+}
+
+.popup.active {
+    display: block; 
+    opacity: 1;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-width: 400px;
+    width: 90%;
+    text-align: center;
+    position: absolute; 
+    top: 50%; 
+    left: 50%; 
+    transform: translate(-50%, -50%) scale(0.9); 
+    opacity: 0; 
+    transition: transform 0.3s ease, opacity 0.3s ease; 
+}
+
+.popup.active .popup-content {
+    transform: translate(-50%, -50%) scale(1); 
+    opacity: 1; 
+}
+
+#close-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #333;
+}
+
+#close-popup:hover {
+    color: #000;
+}
+
+#ranking-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#ranking-list li {
+    background: rgba(16, 124, 65, 0.1);
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.dark-mode .popup-content {
+    background: #2c3e50;
+    color: white;
+}
+
+.dark-mode #close-popup {
+    color: white;
+}
+
+.dark-mode #ranking-list li {
+    background: rgba(52, 152, 219, 0.1);
+    color: white;
 }

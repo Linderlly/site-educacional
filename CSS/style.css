@@ -156,32 +156,6 @@ li:active {
     animation: incorrectShake 0.3s ease-in-out;
 }
 
-@keyframes incorrectShake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    50% { transform: translateX(5px); }
-    75% { transform: translateX(-5px); }
-}
-@media (max-width: 600px) {
-    body {
-        padding: 10px;
-    }
-    
-    .container {
-        width: 95%;
-        padding: 15px;
-    }
-
-    li {
-        font-size: 14px;
-        padding: 8px;
-    }
-
-    button {
-        font-size: 12px;
-        padding: 6px;
-    }
-}
 #progress-bar {
     width: 100%;
     background: #e0e0e0;
@@ -249,7 +223,6 @@ li:active {
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); 
 }
 
-
 .dark-mode #progress-circle {
     background: #2c3e50;
 }
@@ -259,4 +232,30 @@ li:active {
 
 #progress-circle:hover {
     transform: scale(1.1);
+}
+@keyframes incorrectShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+    
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    li {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 6px;
+    }
 }
