@@ -1,11 +1,38 @@
 document.addEventListener("DOMContentLoaded", function () {
+    // Obtém o nome do jogador armazenado no localStorage ou define como "Aluno" se não houver
     const playerName = localStorage.getItem("username") || "Aluno";
     document.getElementById("player-name").textContent = `Jogador: ${playerName}`;
 
-  
+    // Referências aos elementos de áudio para os sons de acerto e erro
     const correctSound = document.getElementById("correct-sound");
     const incorrectSound = document.getElementById("incorrect-sound");
 
+    // Referência ao som de fundo
+    const backgroundMusic = document.getElementById("background-music");
+
+    // Inicia o som de fundo ao carregar a página
+    backgroundMusic.play();
+
+    // Referência ao botão de mudo
+    const muteBtn = document.getElementById("mute-btn");
+
+    // Estado inicial do som (não mudo)
+    let isMuted = false;
+
+    // Adiciona o evento de clique ao botão de mudo
+    muteBtn.addEventListener("click", function () {
+        isMuted = !isMuted; // Alterna entre mudo e não mudo
+
+        if (isMuted) {
+            backgroundMusic.pause(); // Pausa o som de fundo
+            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>'; // Altera o ícone para mudo
+        } else {
+            backgroundMusic.play(); // Toca o som de fundo
+            muteBtn.innerHTML = '<i class="fas fa-music"></i>'; // Altera o ícone para nota musical
+        }
+    });
+
+    // Lista de perguntas e respostas
     const questions = [
         { type: "multiple", question: "Qual fórmula soma um intervalo no Excel?", options: ["=SOMA(A1:A10)", "=SOMAR(A1:A10)", "=ADD(A1:A10)", "=SUMAR(A1:A10)"], answer: "=SOMA(A1:A10)" },
         { type: "multiple", question: "Qual função busca valores na vertical?", options: ["SOMASE", "ÍNDICE", "CORRESP", "PROCV"], answer: "PROCV" },
@@ -29,59 +56,80 @@ document.addEventListener("DOMContentLoaded", function () {
         { type: "multiple", question: "O que faz a função HOJE?", options: ["Formata células", "Soma datas", "Retorna a data atual", "Exclui valores"], answer: "Retorna a data atual" }
     ];
 
-    let currentQuestionIndex = 0;
-    let score = 0;
+    let currentQuestionIndex = 0; // Índice da pergunta atual
+    let score = 0; // Pontuação do jogador
 
- 
-    function updateProgress() {
-        const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
-        document.getElementById("progress").style.width = `${progress}%`;
-    }
-
-    
+    // Função para carregar a próxima pergunta com transição
     function loadQuestion() {
-        
-        document.getElementById("current-question").textContent = currentQuestionIndex + 1;
-        document.getElementById("total-questions").textContent = questions.length;
+        const quizContainer = document.getElementById("quiz-container");
 
-       
-        const questionElement = document.getElementById("question");
-        const optionsList = document.getElementById("options");
-        const textInput = document.getElementById("text-answer");
-        const correctAnswerText = document.getElementById("correct-answer");
-        const checkButton = document.getElementById("check-btn");
-        const nextButton = document.getElementById("next-btn");
+        // Adiciona a animação de saída
+        quizContainer.classList.add("fade-out");
 
-        let currentQuestion = questions[currentQuestionIndex];
+        // Aguarda o término da animação de saída antes de carregar a próxima pergunta
+        setTimeout(() => {
+            // Limpa a animação de saída
+            quizContainer.classList.remove("fade-out");
 
-        questionElement.textContent = currentQuestion.question;
-        optionsList.innerHTML = "";
-        textInput.style.display = "none";
-        textInput.value = "";
-        textInput.removeAttribute("readonly");
-        correctAnswerText.style.display = "none";
-        correctAnswerText.textContent = "";
-        checkButton.style.display = "inline-block";
-        nextButton.disabled = true;
+            // Atualiza o número da pergunta atual e o total de perguntas
+            document.getElementById("current-question").textContent = currentQuestionIndex + 1;
+            document.getElementById("total-questions").textContent = questions.length;
 
-        if (currentQuestion.type === "multiple") {
-            currentQuestion.options.forEach(option => {
-                const li = document.createElement("li");
-                li.textContent = option;
-                li.onclick = () => checkAnswer(option, li);
-                optionsList.appendChild(li);
-            });
-        } else {
-            textInput.style.display = "block";
-            checkButton.onclick = checkTextAnswer;
-        }
+            // Obtém a pergunta atual
+            let currentQuestion = questions[currentQuestionIndex];
+
+            // Define o texto da pergunta
+            document.getElementById("question").textContent = currentQuestion.question;
+
+            // Limpa as opções anteriores
+            const optionsList = document.getElementById("options");
+            optionsList.innerHTML = "";
+
+            // Oculta o campo de texto e limpa seu valor
+            const textInput = document.getElementById("text-answer");
+            textInput.style.display = "none";
+            textInput.value = "";
+            textInput.removeAttribute("readonly");
+
+            // Oculta o texto da resposta correta
+            const correctAnswerText = document.getElementById("correct-answer");
+            correctAnswerText.style.display = "none";
+            correctAnswerText.textContent = "";
+
+            // Exibe o botão "Verificar" e desabilita o botão "Próxima pergunta"
+            document.getElementById("check-btn").style.display = "inline-block";
+            document.getElementById("next-btn").disabled = true;
+
+            // Se a pergunta for do tipo múltipla escolha, carrega as opções
+            if (currentQuestion.type === "multiple") {
+                currentQuestion.options.forEach(option => {
+                    const li = document.createElement("li");
+                    li.textContent = option;
+                    li.onclick = () => checkAnswer(option, li);
+                    optionsList.appendChild(li);
+                });
+            } else {
+                // Se a pergunta for do tipo texto, exibe o campo de texto
+                textInput.style.display = "block";
+                document.getElementById("check-btn").onclick = checkTextAnswer;
+            }
+
+            // Adiciona a animação de entrada
+            quizContainer.classList.add("fade-in");
+
+            // Remove a animação de entrada após a transição
+            setTimeout(() => {
+                quizContainer.classList.remove("fade-in");
+            }, 500);
+        }, 500); // Tempo correspondente à duração da animação de saída
     }
 
-   
+    // Função para verificar a resposta (mantida igual)
     function checkAnswer(selectedOption, selectedElement) {
         let currentQuestion = questions[currentQuestionIndex];
         let correctAnswerText = document.getElementById("correct-answer");
 
+        // Marca a resposta correta e as incorretas
         document.querySelectorAll("#options li").forEach(li => {
             if (currentQuestion.answer === li.textContent) {
                 li.classList.add("correct");
@@ -90,65 +138,72 @@ document.addEventListener("DOMContentLoaded", function () {
                 li.classList.add("incorrect");
                 li.style.backgroundColor = "red";
             }
-            li.style.pointerEvents = "none";
+            li.style.pointerEvents = "none"; // Desabilita cliques nas opções
         });
 
+        // Verifica se a resposta está correta
         if (currentQuestion.answer === selectedOption) {
-            score++;
-            correctSound.currentTime = 0;
-            correctSound.play();
+            score++; // Incrementa a pontuação
+            correctSound.currentTime = 0; // Reinicia o som de acerto
+            correctSound.play(); // Toca o som de acerto
         } else {
+            // Exibe a resposta correta e toca o som de erro
             correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer}`;
             correctAnswerText.style.display = "block";
-            incorrectSound.currentTime = 0;
-            incorrectSound.play();
+            incorrectSound.currentTime = 0; // Reinicia o som de erro
+            incorrectSound.play(); // Toca o som de erro
         }
 
+        // Oculta o botão "Verificar" e habilita o botão "Próxima pergunta"
         document.getElementById("check-btn").style.display = "none";
         document.getElementById("next-btn").disabled = false;
     }
 
-   
+    // Função para verificar a resposta do tipo texto (mantida igual)
     function checkTextAnswer() {
         let currentQuestion = questions[currentQuestionIndex];
         let textInput = document.getElementById("text-answer");
         let correctAnswerText = document.getElementById("correct-answer");
 
+        // Obtém a resposta do usuário e converte para minúsculas
         let userAnswer = textInput.value.trim().toLowerCase();
 
+        // Reinicia os sons
         correctSound.pause();
         incorrectSound.pause();
 
+        // Verifica se a resposta do usuário está correta
         if (currentQuestion.answer.some(correct => correct.toLowerCase() === userAnswer)) {
-            textInput.style.borderColor = "green";
-            score++;
-            correctSound.currentTime = 0;
-            correctSound.play();
+            textInput.style.borderColor = "green"; // Marca como correta
+            score++; // Incrementa a pontuação
+            correctSound.currentTime = 0; // Reinicia o som de acerto
+            correctSound.play(); // Toca o som de acerto
         } else {
-            textInput.style.borderColor = "red";
-            correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer[0]}`;
+            textInput.style.borderColor = "red"; // Marca como incorreta
+            correctAnswerText.textContent = `Resposta correta: ${currentQuestion.answer[0]}`; // Exibe a resposta correta
             correctAnswerText.style.display = "block";
-            incorrectSound.currentTime = 0;
-            incorrectSound.play();
+            incorrectSound.currentTime = 0; // Reinicia o som de erro
+            incorrectSound.play(); // Toca o som de erro
         }
 
-        textInput.setAttribute("readonly", true);
+        textInput.setAttribute("readonly", true); // Bloqueia o campo de texto
 
+        // Oculta o botão "Verificar" e habilita o botão "Próxima pergunta"
         document.getElementById("check-btn").style.display = "none";
         document.getElementById("next-btn").disabled = false;
     }
 
-
+    // Avança para a próxima pergunta ou finaliza o quiz
     document.getElementById("next-btn").addEventListener("click", () => {
         currentQuestionIndex++;
         if (currentQuestionIndex < questions.length) {
-            loadQuestion();
+            loadQuestion(); // Carrega a próxima pergunta com transição
         } else {
-            finishQuiz();
+            finishQuiz(); // Finaliza o quiz
         }
     });
 
-
+    // Função para finalizar o quiz
     function finishQuiz() {
         const container = document.querySelector(".container");
         container.innerHTML = `<h1>Parabéns, ${playerName}!</h1>
@@ -157,19 +212,22 @@ document.addEventListener("DOMContentLoaded", function () {
                                <ol id="ranking-list"></ol>
                                <button onclick="restartQuiz()">Tentar Novamente</button>`;
 
-        saveScore(playerName, score);
-        displayRanking();
+        saveScore(playerName, score); // Salva a pontuação no ranking
+        displayRanking(); // Exibe o ranking
+
+        // Para o som de fundo ao finalizar o quiz
+        backgroundMusic.pause();
     }
 
-
+    // Função para salvar a pontuação (mantida igual)
     function saveScore(name, score) {
         let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
         ranking.push({ name, score });
-        ranking.sort((a, b) => b.score - a.score);
-        localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10)));
+        ranking.sort((a, b) => b.score - a.score); // Ordena o ranking
+        localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10))); // Limita o ranking a 10 jogadores
     }
 
-
+    // Função para exibir o ranking (mantida igual)
     function displayRanking() {
         let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
         let rankingList = document.getElementById("ranking-list");
@@ -181,11 +239,11 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
 
-
+    // Função para reiniciar o quiz (mantida igual)
     window.restartQuiz = function () {
-        window.location.href = "index.html";
+        window.location.href = "/site-educacional/index.html";
     };
 
-
+    // Carrega a primeira pergunta ao iniciar o quiz
     loadQuestion();
-}); 
+});

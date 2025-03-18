@@ -260,3 +260,93 @@ li:active {
         padding: 6px;
     }
 }
+/* Estilos para o botão "Voltar ao Início" */
+.home-btn {
+    position: fixed; /* Fixa o botão na tela */
+    top: 20px; /* Distância do topo */
+    left: 20px; /* Distância da esquerda */
+    background: #107C41; /* Cor de fundo */
+    color: white; /* Cor do ícone */
+    border: none;
+    border-radius: 50%; /* Transforma o botão em um círculo */
+    width: 50px; /* Largura */
+    height: 50px; /* Altura */
+    font-size: 24px; /* Tamanho do ícone */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    transition: background 0.3s ease; /* Transição suave */
+}
+
+.home-btn:hover {
+    background: #0e6a37; /* Cor de fundo ao passar o mouse */
+}
+
+/* Ajustes para o modo escuro */
+.dark-mode .home-btn {
+    background: #2c3e50; /* Cor de fundo no modo escuro */
+}
+
+.dark-mode .home-btn:hover {
+    background: #34495e; /* Cor de fundo ao passar o mouse no modo escuro */
+}
+/* Animação de entrada e saída das perguntas */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; transform: translateY(0); }
+    to { opacity: 0; transform: translateY(-20px); }
+}
+
+/* Classe para animação de entrada */
+.fade-in {
+    animation: fadeIn 0.5s ease-in-out forwards;
+}
+
+/* Classe para animação de saída */
+.fade-out {
+    animation: fadeOut 0.5s ease-in-out forwards;
+}
+
+/* Ajustes para o container do quiz */
+#quiz-container {
+    position: relative;
+    overflow: hidden;
+}
+/* Estilo do botão de mudo */
+.mute-btn {
+    position: fixed; /* Fixa o botão na tela */
+    top: 20px; /* Distância do topo */
+    left: 90px; /* Distância da esquerda (ao lado do botão de início) */
+    background: #107C41; /* Cor de fundo */
+    color: white; /* Cor do ícone */
+    border: none;
+    border-radius: 50%; /* Transforma o botão em um círculo */
+    width: 50px; /* Largura */
+    height: 50px; /* Altura */
+    font-size: 24px; /* Tamanho do ícone */
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    transition: background 0.3s ease; /* Transição suave */
+}
+
+.mute-btn:hover {
+    background: #0e6a37; /* Cor de fundo ao passar o mouse */
+}
+
+/* Ajustes para o modo escuro */
+.dark-mode .mute-btn {
+    background: #2c3e50; /* Cor de fundo no modo escuro */
+}
+
+.dark-mode .mute-btn:hover {
+    background: #34495e; /* Cor de fundo ao passar o mouse no modo escuro */
+}
