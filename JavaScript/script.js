@@ -56,6 +56,18 @@ document.addEventListener("DOMContentLoaded", function () {
         { type: "multiple", question: "O que faz a função HOJE?", options: ["Formata células", "Soma datas", "Retorna a data atual", "Exclui valores"], answer: "Retorna a data atual" }
     ];
 
+    // Função para embaralhar as perguntas
+    function shuffleQuestions(array) {
+        for (let i = array.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [array[i], array[j]] = [array[j], array[i]]; // Troca os elementos
+        }
+        return array;
+    }
+
+    // Embaralha as perguntas antes de começar o quiz
+    const shuffledQuestions = shuffleQuestions(questions);
+
     let currentQuestionIndex = 0; // Índice da pergunta atual
     let score = 0; // Pontuação do jogador
 
@@ -73,10 +85,10 @@ document.addEventListener("DOMContentLoaded", function () {
 
             // Atualiza o número da pergunta atual e o total de perguntas
             document.getElementById("current-question").textContent = currentQuestionIndex + 1;
-            document.getElementById("total-questions").textContent = questions.length;
+            document.getElementById("total-questions").textContent = shuffledQuestions.length;
 
             // Obtém a pergunta atual
-            let currentQuestion = questions[currentQuestionIndex];
+            let currentQuestion = shuffledQuestions[currentQuestionIndex];
 
             // Define o texto da pergunta
             document.getElementById("question").textContent = currentQuestion.question;
@@ -126,7 +138,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para verificar a resposta (mantida igual)
     function checkAnswer(selectedOption, selectedElement) {
-        let currentQuestion = questions[currentQuestionIndex];
+        let currentQuestion = shuffledQuestions[currentQuestionIndex];
         let correctAnswerText = document.getElementById("correct-answer");
 
         // Marca a resposta correta e as incorretas
@@ -161,7 +173,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Função para verificar a resposta do tipo texto (mantida igual)
     function checkTextAnswer() {
-        let currentQuestion = questions[currentQuestionIndex];
+        let currentQuestion = shuffledQuestions[currentQuestionIndex];
         let textInput = document.getElementById("text-answer");
         let correctAnswerText = document.getElementById("correct-answer");
 
@@ -196,7 +208,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Avança para a próxima pergunta ou finaliza o quiz
     document.getElementById("next-btn").addEventListener("click", () => {
         currentQuestionIndex++;
-        if (currentQuestionIndex < questions.length) {
+        if (currentQuestionIndex < shuffledQuestions.length) {
             loadQuestion(); // Carrega a próxima pergunta com transição
         } else {
             finishQuiz(); // Finaliza o quiz
@@ -207,7 +219,7 @@ document.addEventListener("DOMContentLoaded", function () {
     function finishQuiz() {
         const container = document.querySelector(".container");
         container.innerHTML = `<h1>Parabéns, ${playerName}!</h1>
-                               <p>Você acertou <strong>${score}</strong> de <strong>${questions.length}</strong> questões.</p>
+                               <p>Você acertou <strong>${score}</strong> de <strong>${shuffledQuestions.length}</strong> questões.</p>
                                <h2>Ranking dos Melhores</h2>
                                <ol id="ranking-list"></ol>
                                <button onclick="restartQuiz()">Tentar Novamente</button>`;
