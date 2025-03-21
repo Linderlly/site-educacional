@@ -42,15 +42,25 @@
     </div>
 
     <!-- Sons de feedback -->
-    <audio id="correct-sound" src="/site-educacional/sounds/correct.mp3"></audio>
-    <audio id="incorrect-sound" src="/site-educacional/sounds/incorrect.mp3"></audio>
+<audio id="correct-sound" src="/site-educacional/sounds/correct.mp3"></audio>
+<audio id="incorrect-sound" src="/site-educacional/sounds/incorrect.mp3"></audio>
 
-    <!-- Som de fundo -->
-    <audio id="background-music" loop>
-        <source src="/site-educacional/sounds/sound-background.mp3" type="audio/mpeg">
-        Seu navegador não suporta o elemento de áudio.
-    </audio>
+<!-- Som de fundo -->
+<audio id="background-music" loop>
+    <source src="/site-educacional/sounds/sound-background.mp3" type="audio/mpeg">
+    Seu navegador não suporta o elemento de áudio.
+</audio>
 
+<!-- Som de celebração ao finalizar -->
+<audio id="celebration-sound">
+    <source src="/site-educacional/sounds/celebration.mp3" type="audio/mpeg">
+    Seu navegador não suporta o elemento de áudio.
+</audio>
+
+    <!-- Adicione a biblioteca Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Seu script principal -->
     <script src="/site-educacional/JavaScript/script.js"></script>
     <script>
         // Inicia o som de fundo ao carregar a página

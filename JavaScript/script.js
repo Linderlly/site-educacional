@@ -215,7 +215,6 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    // Função para finalizar o quiz
     function finishQuiz() {
         const container = document.querySelector(".container");
         container.innerHTML = `<h1>Parabéns, ${playerName}!</h1>
@@ -223,14 +222,44 @@ document.addEventListener("DOMContentLoaded", function () {
                                <h2>Ranking dos Melhores</h2>
                                <ol id="ranking-list"></ol>
                                <button onclick="restartQuiz()">Tentar Novamente</button>`;
-
+    
         saveScore(playerName, score); // Salva a pontuação no ranking
         displayRanking(); // Exibe o ranking
-
+    
         // Para o som de fundo ao finalizar o quiz
         backgroundMusic.pause();
+    
+        // Toca o som de celebração
+        const celebrationSound = document.getElementById("celebration-sound");
+        celebrationSound.play().catch((error) => {
+            console.error("Erro ao reproduzir o som de celebração:", error);
+        });
+    
+        // Dispara os confetes
+        confetti({
+            particleCount: 150, // Quantidade de confetes
+            spread: 70, // Quão espalhados os confetes estarão
+            origin: { y: 0.6 }, // Origem dos confetes (0.6 = 60% da altura da tela)
+        });
+    
+        // Adiciona mais confetes após um pequeno intervalo
+        setTimeout(() => {
+            confetti({
+                particleCount: 100,
+                spread: 60,
+                origin: { y: 0.5 },
+            });
+        }, 500);
+    
+        // Adiciona ainda mais confetes após outro intervalo
+        setTimeout(() => {
+            confetti({
+                particleCount: 200,
+                spread: 90,
+                origin: { y: 0.7 },
+            });
+        }, 1000);
     }
-
     // Função para salvar a pontuação (mantida igual)
     function saveScore(name, score) {
         let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
