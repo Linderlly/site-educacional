@@ -4,17 +4,71 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz de Excel - Início</title>
-    <link rel="icon" href="./img/icon-excel.png" type="image/x-icon">
+    <link rel="icon" href="./img/quiz-icon.png" type="image/x-icon">
     <link rel="stylesheet" href="./CSS/stylepg.css">
+    <!-- Adicione o Font Awesome para ícones -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
+        <!-- Botão de informações (exclamação) -->
+        <button id="info-btn" class="info-btn">
+            <i class="fas fa-exclamation"></i> <!-- Ícone de exclamação -->
+        </button>
+
+        <!-- Botão de modo escuro -->
         <button id="toggle-dark-mode" aria-label="Alternar modo escuro">🌙</button>
+
+        <!-- Popup de informações -->
+        <div id="info-popup" class="popup">
+            <div class="popup-content">
+                <span id="close-info-popup">&times;</span> <!-- Botão de fechar -->
+                <h2>Minhas Redes Sociais</h2>
+                <ul class="social-links">
+                    <li>
+                        <a href="https://www.instagram.com/seu-instagram" target="_blank">
+                            <i class="fab fa-instagram"></i> Instagram
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://www.linkedin.com/in/seu-linkedin" target="_blank">
+                            <i class="fab fa-linkedin"></i> LinkedIn
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/seu-github" target="_blank">
+                            <i class="fab fa-github"></i> GitHub
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Popup de opções de quiz -->
+        <div id="quiz-options-popup" class="popup">
+            <div class="popup-content">
+                <span id="close-quiz-options-popup">&times;</span> <!-- Botão de fechar -->
+                <h2>Escolha um Quiz</h2>
+                <ul class="quiz-options">
+                    <li>
+                        <button onclick="redirectToQuiz('excel')">Quiz de Excel</button>
+                    </li>
+                    <li>
+                        <button onclick="redirectToQuiz('word')">Quiz de Word</button>
+                    </li>
+                    <li>
+                        <button onclick="redirectToQuiz('powerpoint')">Quiz de PowerPoint</button>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Restante do conteúdo da página -->
         <h1>Bem-vindo ao Quiz de Excel</h1>
         <p>Insira seu nome para começar:</p>
         <input type="text" id="username" placeholder="Seu nome" aria-describedby="name-help">
         <p id="name-help" style="color: #e74c3c; display: none;">O nome deve ter pelo menos 3 caracteres e conter apenas letras e espaços.</p>
-        <button onclick="startQuiz()">Iniciar</button>
+        <button onclick="openQuizOptions()">Iniciar</button> <!-- Alterado para abrir o pop-up -->
 
         <button id="view-ranking-btn" style="margin-top: 20px;">Ver Ranking</button>
 

@@ -1,0 +1,283 @@
+:root {
+    --primary: #1E90FF; /* Azul Dodger */
+    --secondary: rgba(30, 144, 255, 0.7); /* Azul Dodger com transparência */
+    --hover-secondary: rgba(24, 116, 205, 0.7); /* Azul mais escuro com transparência */
+    --correct: #32CD32; /* Verde Lima */
+    --incorrect: #FF4500; /* Vermelho Laranja */
+    --text-dark: black; /* Cor do texto escuro */
+    --text-light: white; /* Cor do texto claro */
+}
+
+/* Estilos gerais do corpo da página */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #87CEEB, #1E90FF, #4169E1); /* Gradiente de azul */
+    padding: 20px;
+    color: var(--text-light);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+}
+
+/* Modo escuro */
+.dark-mode {
+    background: linear-gradient(135deg, #2c3e50, #34495e); /* Gradiente de fundo no modo escuro */
+    color: white;
+}
+
+/* Container principal */
+.container {
+    background: white url('/site-educacional/img/icon-word.png') no-repeat center; /* Imagem de fundo */
+    background-size: contain;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-width: 500px;
+    width: 90%;
+    color: var(--text-dark);
+    transition: background 0.5s ease, color 0.5s ease;
+}
+
+/* Ajustes do container no modo escuro */
+.dark-mode .container {
+    background: #2c3e50 url('/site-educacional/img/icon-word.png') no-repeat center;
+    color: white;
+}
+
+/* Estilos para o título */
+h1 {
+    color: var(--text-dark);
+}
+
+/* Container do quiz */
+#quiz-container {
+    margin-top: 20px;
+    padding: 20px;
+    font-weight: bold;
+    font-size: large;
+    border-radius: 10px;
+    background-size: contain;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+/* Lista de opções */
+ul {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Itens da lista (opções do quiz) */
+li {
+    background: var(--secondary);
+    color: var(--text-dark);
+    padding: 12px;
+    margin: 5px 0;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    width: 80%;
+    text-align: center;
+    transition: background 0.3s ease-in-out;
+}
+
+li:hover {
+    background: var(--hover-secondary);
+}
+
+li:active {
+    transform: scale(0.95);
+}
+
+/* Botões */
+button {
+    width: 150px;
+    margin-top: 10px;
+    padding: 6px 10px;
+    font-size: 14px;
+    background: var(--primary);
+    color: var(--text-light);
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background 0.3s ease-in-out;
+}
+
+button:hover {
+    background: #1C86EE; /* Azul mais escuro */
+}
+
+button:disabled {
+    background: #bdc3c7;
+    cursor: not-allowed;
+}
+
+/* Campo de entrada de texto */
+input {
+    width: 80%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    text-align: center;
+}
+
+/* Estilo para respostas corretas */
+.correct {
+    background-color: var(--correct) !important;
+    animation: correctGlow 0.5s ease-in-out;
+}
+
+@keyframes correctGlow {
+    0% { box-shadow: 0 0 5px #32CD32; }
+    100% { box-shadow: 0 0 15px #32CD32; }
+}
+
+/* Estilo para respostas incorretas */
+.incorrect {
+    background-color: var(--incorrect) !important;
+    animation: incorrectShake 0.3s ease-in-out;
+}
+
+@keyframes incorrectShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    50% { transform: translateX(5px); }
+    75% { transform: translateX(-5px); }
+}
+
+/* Botão "Voltar ao Início" */
+.home-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+}
+
+.home-btn:hover {
+    background: #1C86EE;
+}
+
+/* Botão de mudo */
+.mute-btn {
+    position: fixed;
+    top: 20px;
+    left: 90px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+}
+
+.mute-btn:hover {
+    background: #1C86EE;
+}
+
+/* Botão do modo noturno */
+#toggle-dark-mode {
+    position: fixed;
+    top: 20px;
+    left: 160px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+}
+
+#toggle-dark-mode:hover {
+    background: #1C86EE;
+}
+/* Barra de progresso */
+#progress-bar {
+    width: 100%;
+    background: #e0e0e0; /* Cor de fundo cinza */
+    border-radius: 5px; /* Bordas arredondadas */
+    margin: 10px 0;
+    overflow: hidden;
+}
+
+/* Estilo do círculo de progresso */
+#progress-circle {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%; /* Formato circular */
+    border: 3px solid var(--primary); /* Borda azul */
+    background: white; /* Fundo branco */
+    color: var(--text-dark); /* Cor do texto */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px auto; /* Centraliza */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Sombra suave */
+    transition: transform 0.3s ease; /* Transição suave */
+}
+
+/* Efeito ao passar o mouse sobre o círculo de progresso */
+#progress-circle:hover {
+    transform: scale(1.1); /* Aumenta ligeiramente o tamanho */
+}
+
+/* Ajustes para o modo escuro */
+.dark-mode #progress-circle {
+    border-color: var(--text-light); /* Borda branca no modo escuro */
+    color: var(--text-light); /* Texto branco no modo escuro */
+    background: #2c3e50; /* Fundo escuro */
+}
+/* Ajustes para telas menores (responsividade) */
+@media (max-width: 600px) {
+    body {
+        padding: 10px;
+    }
+
+    .container {
+        width: 95%;
+        padding: 15px;
+    }
+
+    li {
+        font-size: 14px;
+        padding: 8px;
+    }
+
+    button {
+        font-size: 12px;
+        padding: 6px;
+    }
+}

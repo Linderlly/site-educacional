@@ -181,3 +181,247 @@ button:hover {
     background: rgba(52, 152, 219, 0.1);
     color: white;
 }
+/* Estilo do botão de informações */
+.info-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    background: #107C41;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+    z-index: 1000; /* Garante que o botão fique acima de outros elementos */
+}   
+.info-btn:hover {
+    background: #0e6a37;
+}
+/* Estilo do botão de modo escuro */
+#toggle-dark-mode {
+    position: fixed;
+    top: 20px;
+    left: 90px; /* Ajuste a distância conforme necessário */
+    background: #107C41;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+    z-index: 1000;
+}
+
+#toggle-dark-mode:hover {
+    background: #0e6a37;
+}
+
+/* Estilo do popup de informações */
+#info-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#info-popup.active {
+    display: block;
+    opacity: 1;
+}
+
+.popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    width: 90%;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#info-popup.active .popup-content {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+/* Estilo dos links das redes sociais */
+.social-links {
+    list-style: none;
+    padding: 0;
+}
+
+.social-links li {
+    margin: 15px 0;
+}
+
+/* Estilo dos links das redes sociais no modo claro */
+.social-links a {
+    text-decoration: none;
+    color: var(--text-dark); /* Cor preta no modo claro */
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.3s ease;
+}
+
+.social-links a:hover {
+    color: var(--primary); /* Cor primária ao passar o mouse */
+}
+
+
+.social-links i {
+    margin-right: 10px;
+    font-size: 24px;
+}
+
+/* Botão de fechar o popup */
+#close-info-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #000000ec;
+}
+/* Ajustes para o modo escuro */
+.dark-mode .social-links a {
+    color: var(--text-light); /* Cor branca no modo escuro */
+}
+.dark-mode .social-links a:hover {
+    color: var(--primary); /* Cor primária ao passar o mouse */
+}
+
+#close-info-popup:hover {
+    color: #ff0000;
+}
+/* Estilo do popup de opções de quiz */
+#quiz-options-popup {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+#quiz-options-popup.active {
+    display: block;
+    opacity: 1;
+}
+
+#quiz-options-popup .popup-content {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    max-width: 300px;
+    width: 90%;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.9);
+    opacity: 0;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+}
+
+#quiz-options-popup.active .popup-content {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+}
+
+/* Estilo das opções de quiz */
+.quiz-options {
+    list-style: none;
+    padding: 0;
+}
+
+.quiz-options li {
+    margin: 15px 0;
+}
+
+.quiz-options button {
+    width: 100%;
+    padding: 10px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.quiz-options button:hover {
+    background: #0e6a37;
+}
+
+/* Ajustes para o modo escuro */
+.dark-mode #quiz-options-popup .popup-content {
+    background: #2c3e50;
+    color: white;
+}
+
+.dark-mode .quiz-options button {
+    background: var(--secondary);
+}
+
+.dark-mode .quiz-options button:hover {
+    background: var(--hover-secondary);
+}
+/* Estilo do botão de fechar do pop-up de opções de quiz */
+#close-quiz-options-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer; /* Cursor pointer ao passar o mouse */
+    color: #333; /* Cor padrão */
+    background: none;
+    border: none;
+    padding: 0;
+    transition: color 0.3s ease;
+}
+
+#close-quiz-options-popup:hover {
+    color: #f70000; /* Cor mais escura ao passar o mouse */
+}
+
+/* Ajustes para o modo escuro */
+.dark-mode #close-quiz-options-popup {
+    color: white; /* Cor branca no modo escuro */
+}
+
+.dark-mode #close-quiz-options-popup:hover {
+    color: #ccc; /* Cor mais clara ao passar o mouse no modo escuro */
+}
