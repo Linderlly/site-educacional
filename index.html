@@ -1,28 +1,34 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
+    <!-- Configurações básicas do documento -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Quiz de Excel - Início</title>
+    <title>Quiz - Início</title>
+    
+    <!-- Favicon e estilos -->
     <link rel="icon" href="./img/quiz-icon.png" type="image/x-icon">
     <link rel="stylesheet" href="./CSS/stylepg.css">
-    <!-- Adicione o Font Awesome para ícones -->
+    
+    <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <!-- Botão de informações (exclamação) -->
+        <!-- Botão de informações (ícone de exclamação) -->
         <button id="info-btn" class="info-btn">
-            <i class="fas fa-exclamation"></i> <!-- Ícone de exclamação -->
+            <img src="/site-educacional/img/exclamation.png" alt="Ícone de informações">
         </button>
 
-        <!-- Botão de modo escuro -->
-        <button id="toggle-dark-mode" aria-label="Alternar modo escuro">🌙</button>
+        <!-- Botão de alternar modo escuro -->
+        <button id="toggle-dark-mode" aria-label="Alternar modo escuro">
+            <img src="/site-educacional/img/dark-mode.png" alt="Modo escuro">
+        </button>
 
-        <!-- Popup de informações -->
+        <!-- Popup de informações (redes sociais) -->
         <div id="info-popup" class="popup">
             <div class="popup-content">
-                <span id="close-info-popup">&times;</span> <!-- Botão de fechar -->
+                <span id="close-info-popup">&times;</span> <!-- Botão de fechar (X) -->
                 <h2>Minhas Redes Sociais</h2>
                 <ul class="social-links">
                     <li>
@@ -44,10 +50,10 @@
             </div>
         </div>
 
-        <!-- Popup de opções de quiz -->
+        <!-- Popup de escolha de quiz (Excel, Word, PowerPoint) -->
         <div id="quiz-options-popup" class="popup">
             <div class="popup-content">
-                <span id="close-quiz-options-popup">&times;</span> <!-- Botão de fechar -->
+                <span id="close-quiz-options-popup">&times;</span>
                 <h2>Escolha um Quiz</h2>
                 <ul class="quiz-options">
                     <li>
@@ -63,24 +69,30 @@
             </div>
         </div>
 
-        <!-- Restante do conteúdo da página -->
-        <h1>Bem-vindo ao Quiz de Excel</h1>
+        <!-- Conteúdo principal da página -->
+        <h1>Bem-vindo ao Quiz</h1>
         <p>Insira seu nome para começar:</p>
         <input type="text" id="username" placeholder="Seu nome" aria-describedby="name-help">
-        <p id="name-help" style="color: #e74c3c; display: none;">O nome deve ter pelo menos 3 caracteres e conter apenas letras e espaços.</p>
-        <button onclick="openQuizOptions()">Iniciar</button> <!-- Alterado para abrir o pop-up -->
+        <!-- Mensagem de erro (inicialmente oculta) -->
+        <p id="name-help" style="color: #e74c3c; display: none;">
+            O nome deve ter pelo menos 3 caracteres e conter apenas letras e espaços.
+        </p>
+        <button onclick="openQuizOptions()">Iniciar</button> <!-- Abre o pop-up de quizzes -->
 
+        <!-- Botão para ver o ranking -->
         <button id="view-ranking-btn" style="margin-top: 20px;">Ver Ranking</button>
 
+        <!-- Popup de ranking -->
         <div id="ranking-popup" class="popup">
             <div class="popup-content">
                 <span id="close-popup">&times;</span>
                 <h2>Ranking dos Melhores</h2>
-                <ol id="ranking-list"></ol>
+                <ol id="ranking-list"></ol> <!-- Lista ordenada para exibir os rankings -->
             </div>
         </div>
     </div>
 
+    <!-- Script JavaScript -->
     <script src="./JavaScript/scriptpg.js"></script>
 </body>
 </html>

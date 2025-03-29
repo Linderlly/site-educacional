@@ -9,10 +9,22 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
 <body>
+        
+    <!-- Medalhas -->
+    <div id="medalha-popup" class="medalha-popup">
+        <div class="medalha-popup-content">
+            <span class="close-medalha-popup">&times;</span>
+            <img class="medalha-popup-img" src="" alt="Medalha">
+            <h3 class="medalha-popup-title"></h3>
+            <p class="medalha-popup-desc"></p>
+            <button class="medalha-popup-btn">Continuar</button>
+        </div>
+    </div>
+
     <div class="container">
         <!-- Botão "Voltar ao Início" -->
         <button id="back-to-home-btn" class="home-btn">
-            <i class="fas fa-home"></i> <!-- Ícone de casa -->
+            <img src="/site-educacional/img/home.png" alt="">
         </button>
 
         <!-- Botão de mudo -->
@@ -21,7 +33,9 @@
         </button>
 
         <div class="container">
-            <button id="toggle-dark-mode" aria-label="Alternar modo escuro">🌙</button>
+            <button id="toggle-dark-mode" aria-label="Alternar modo escuro">
+                <img src="/site-educacional/img/dark-mode.png" alt="Modo escuro">
+            </button>
             <h1 id="player-name"></h1>
             
             <div id="progress-circle">
@@ -80,5 +94,6 @@
         });
         
     </script>
+</div>
 </body>
 </html>

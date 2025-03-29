@@ -1,18 +1,33 @@
+/* PALETA DE CORES PRINCIPAIS */
 :root {
-    --primary: #107C41;
-    --secondary: rgba(52, 152, 219, 0.7);
-    --hover-secondary: rgba(41, 128, 185, 0.7);
-    --correct: #2ECC71;
-    --incorrect: #E74C3C;
-    --text-dark: black;
-    --text-light: white;
+    /* Cores base */
+    --primary: #5D4037;          /* Marrom escuro principal */
+    --secondary: rgba(93, 64, 55, 0.7);  /* Marrom com transparência */
+    --hover-secondary: rgba(78, 52, 46, 0.7); /* Marrom mais escuro */
+    
+    /* Cores de feedback */
+    --correct: #4CAF50;          /* Verde para respostas corretas */
+    --incorrect: #F44336;        /* Vermelho para respostas incorretas */
+    
+    /* Cores de texto */
+    --text-dark: #212121;        /* Preto para texto */
+    --text-light: #FAFAFA;       /* Branco suave para texto */
+    
+    /* Cores de fundo */
+    --background-light: #EEEEEE; /* Cinza claro para fundo */
+    --background-dark: #212121;  /* Preto para fundo escuro */
+    
+    /* Cores de containers */
+    --container-light: #FFFFFF;  /* Branco para container */
+    --container-dark: #424242;   /* Cinza escuro para container */
 }
 
+/* ESTILOS GERAIS */
 body {
     font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #1E6B34, #107C41, #33A852);
+    background: var(--background-light);
     padding: 20px;
-    color: var(--text-light);
+    color: var(--text-dark);
     display: flex;
     justify-content: center;
     align-items: center;
@@ -21,16 +36,18 @@ body {
     transition: background 0.5s ease, color 0.5s ease;
 }
 
+/* MODO ESCURO */
 .dark-mode {
-    background: linear-gradient(135deg, #1a1a1a, #2c3e50);
-    color: white;
+    background: var(--background-dark);
+    color: var(--text-light);
 }
 
+/* CONTAINER PRINCIPAL */
 .container {
-    background: white;
+    background: var(--container-light);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
     max-width: 400px;
     width: 90%;
     color: var(--text-dark);
@@ -38,17 +55,19 @@ body {
 }
 
 .dark-mode .container {
-    background: #2c3e50;
-    color: white;
+    background: var(--container-dark);
+    color: var(--text-light);
 }
 
+/* ELEMENTOS DE FORMULÁRIO */
 input {
     width: 90%;
     padding: 10px;
     margin: 10px 0;
-    border: 1px solid #ccc;
+    border: 1px solid #BDBDBD;
     border-radius: 5px;
     transition: border-color 0.3s ease;
+    background-color: #FAFAFA;
 }
 
 input:focus {
@@ -56,12 +75,13 @@ input:focus {
     outline: none;
 }
 
+/* BOTÕES PRINCIPAIS */
 button {
     font-family: Arial, Helvetica, sans-serif;
     width: 190px;
     padding: 10px;
     background: var(--primary);
-    color: white;
+    color: var(--text-light);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -69,29 +89,78 @@ button {
 }
 
 button:hover {
-    background: #0e6a37;
+    background: var(--hover-secondary);
 }
 
-#toggle-dark-mode {
-    position: absolute;
+/* BOTÕES DE CONTROLE SUPERIORES */
+/* Botão de informações (exclamação) - Canto superior esquerdo */
+.info-btn {
+    position: fixed;
     top: 20px;
-    right: 20px;
-    background: none;
+    left: 20px;
+    background: var(--primary);
+    color: var(--text-light);
     border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
     font-size: 24px;
     cursor: pointer;
-    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+    z-index: 1000;
 }
 
-.dark-mode #toggle-dark-mode {
+#exclamation {
+    position: fixed;
+    top: 20px;
+    left: 80px; /* 60px de distância do botão de informações */
+    background: var(--primary);
     color: var(--text-light);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+    z-index: 1000;
 }
 
+/* Botão de modo escuro - Ao lado do botão de informações */
+#toggle-dark-mode {
+    position: fixed;
+    top: 20px;
+    left: 80px; /* 60px de distância do botão de informações */
+    background: var(--primary);
+    color: var(--text-light);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    transition: background 0.3s ease;
+    z-index: 1000;
+}
+
+/* Botão de ranking */
 #view-ranking-btn {
     padding: 10px 20px;
     font-size: 12px;
-    background: #107C41;
-    color: white;
+    background: var(--primary);
+    color: var(--text-light);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -99,161 +168,34 @@ button:hover {
 }
 
 #view-ranking-btn:hover {
-    background: #0e6a37;
+    background: var(--hover-secondary);
 }
 
-
+/* POPUPS */
 .popup {
-    display: none; 
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5); 
-    z-index: 1000; 
-    opacity: 0; 
-    transition: opacity 0.3s ease; 
-}
-
-.popup.active {
-    display: block; 
-    opacity: 1;
-}
-
-.popup-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 90%;
-    text-align: center;
-    position: absolute; 
-    top: 50%; 
-    left: 50%; 
-    transform: translate(-50%, -50%) scale(0.9); 
-    opacity: 0; 
-    transition: transform 0.3s ease, opacity 0.3s ease; 
-}
-
-.popup.active .popup-content {
-    transform: translate(-50%, -50%) scale(1); 
-    opacity: 1; 
-}
-
-#close-popup {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #333;
-}
-
-#close-popup:hover {
-    color: #000;
-}
-
-#ranking-list {
-    list-style-type: none;
-    padding: 0;
-}
-
-#ranking-list li {
-    background: rgba(16, 124, 65, 0.1);
-    padding: 10px;
-    margin: 5px 0;
-    border-radius: 5px;
-    font-weight: bold;
-}
-
-.dark-mode .popup-content {
-    background: #2c3e50;
-    color: white;
-}
-
-.dark-mode #close-popup {
-    color: white;
-}
-
-.dark-mode #ranking-list li {
-    background: rgba(52, 152, 219, 0.1);
-    color: white;
-}
-/* Estilo do botão de informações */
-.info-btn {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background: #107C41;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s ease;
-    z-index: 1000; /* Garante que o botão fique acima de outros elementos */
-}   
-.info-btn:hover {
-    background: #0e6a37;
-}
-/* Estilo do botão de modo escuro */
-#toggle-dark-mode {
-    position: fixed;
-    top: 20px;
-    left: 90px; /* Ajuste a distância conforme necessário */
-    background: #107C41;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s ease;
-    z-index: 1000;
-}
-
-#toggle-dark-mode:hover {
-    background: #0e6a37;
-}
-
-/* Estilo do popup de informações */
-#info-popup {
     display: none;
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: rgba(0, 0, 0, 0.7);
     z-index: 1000;
     opacity: 0;
     transition: opacity 0.3s ease;
 }
 
-#info-popup.active {
+.popup.active {
     display: block;
     opacity: 1;
 }
 
 .popup-content {
-    background: white;
+    background: var(--container-light);
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    max-width: 300px;
+    box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+    max-width: 400px;
     width: 90%;
     text-align: center;
     position: absolute;
@@ -264,12 +206,55 @@ button:hover {
     transition: transform 0.3s ease, opacity 0.3s ease;
 }
 
-#info-popup.active .popup-content {
+.popup.active .popup-content {
     transform: translate(-50%, -50%) scale(1);
     opacity: 1;
 }
 
-/* Estilo dos links das redes sociais */
+/* Botões de fechar popup */
+#close-popup,
+#close-info-popup,
+#close-quiz-options-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #757575;
+    transition: color 0.3s ease;
+}
+
+#close-popup:hover,
+#close-info-popup:hover,
+#close-quiz-options-popup:hover {
+    color: #E53935;
+}
+
+/* LISTA DE RANKING */
+#ranking-list {
+    list-style-type: none;
+    padding: 0;
+}
+
+#ranking-list li {
+    background: rgba(93, 64, 55, 0.1);
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+/* AJUSTES PARA MODO ESCURO */
+.dark-mode .popup-content {
+    background: var(--container-dark);
+    color: var(--text-light);
+}
+
+.dark-mode #ranking-list li {
+    background: rgba(189, 189, 189, 0.1);
+}
+
+/* LINKS DE REDES SOCIAIS */
 .social-links {
     list-style: none;
     padding: 0;
@@ -279,10 +264,9 @@ button:hover {
     margin: 15px 0;
 }
 
-/* Estilo dos links das redes sociais no modo claro */
 .social-links a {
     text-decoration: none;
-    color: var(--text-dark); /* Cor preta no modo claro */
+    color: var(--primary);
     font-size: 18px;
     display: flex;
     align-items: center;
@@ -291,76 +275,23 @@ button:hover {
 }
 
 .social-links a:hover {
-    color: var(--primary); /* Cor primária ao passar o mouse */
+    color: var(--hover-secondary);
 }
-
 
 .social-links i {
     margin-right: 10px;
     font-size: 24px;
 }
 
-/* Botão de fechar o popup */
-#close-info-popup {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer;
-    color: #000000ec;
-}
-/* Ajustes para o modo escuro */
 .dark-mode .social-links a {
-    color: var(--text-light); /* Cor branca no modo escuro */
+    color: #BDBDBD;
 }
+
 .dark-mode .social-links a:hover {
-    color: var(--primary); /* Cor primária ao passar o mouse */
+    color: var(--text-light);
 }
 
-#close-info-popup:hover {
-    color: #ff0000;
-}
-/* Estilo do popup de opções de quiz */
-#quiz-options-popup {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    z-index: 1000;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-#quiz-options-popup.active {
-    display: block;
-    opacity: 1;
-}
-
-#quiz-options-popup .popup-content {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
-    max-width: 300px;
-    width: 90%;
-    text-align: center;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%) scale(0.9);
-    opacity: 0;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-}
-
-#quiz-options-popup.active .popup-content {
-    transform: translate(-50%, -50%) scale(1);
-    opacity: 1;
-}
-
-/* Estilo das opções de quiz */
+/* OPÇÕES DE QUIZ */
 .quiz-options {
     list-style: none;
     padding: 0;
@@ -374,7 +305,7 @@ button:hover {
     width: 100%;
     padding: 10px;
     background: var(--primary);
-    color: white;
+    color: var(--text-light);
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -383,45 +314,13 @@ button:hover {
 }
 
 .quiz-options button:hover {
-    background: #0e6a37;
-}
-
-/* Ajustes para o modo escuro */
-.dark-mode #quiz-options-popup .popup-content {
-    background: #2c3e50;
-    color: white;
+    background: var(--hover-secondary);
 }
 
 .dark-mode .quiz-options button {
-    background: var(--secondary);
+    background: #616161;
 }
 
 .dark-mode .quiz-options button:hover {
-    background: var(--hover-secondary);
-}
-/* Estilo do botão de fechar do pop-up de opções de quiz */
-#close-quiz-options-popup {
-    position: absolute;
-    top: 10px;
-    right: 15px;
-    font-size: 24px;
-    cursor: pointer; /* Cursor pointer ao passar o mouse */
-    color: #333; /* Cor padrão */
-    background: none;
-    border: none;
-    padding: 0;
-    transition: color 0.3s ease;
-}
-
-#close-quiz-options-popup:hover {
-    color: #f70000; /* Cor mais escura ao passar o mouse */
-}
-
-/* Ajustes para o modo escuro */
-.dark-mode #close-quiz-options-popup {
-    color: white; /* Cor branca no modo escuro */
-}
-
-.dark-mode #close-quiz-options-popup:hover {
-    color: #ccc; /* Cor mais clara ao passar o mouse no modo escuro */
+    background: #757575;
 }

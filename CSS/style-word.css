@@ -43,7 +43,7 @@ body {
 /* Ajustes do container no modo escuro */
 .dark-mode .container {
     background: #2c3e50 url('/site-educacional/img/icon-word.png') no-repeat center;
-    color: white;
+    color: rgb(0, 0, 0);
 }
 
 /* Estilos para o título */
@@ -280,4 +280,104 @@ input {
         font-size: 12px;
         padding: 6px;
     }
+}
+
+.medalha-popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s ease;
+}
+
+.medalha-popup.active {
+    opacity: 1;
+    pointer-events: all;
+}
+
+.medalha-popup-content {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    text-align: center;
+    max-width: 300px;
+    width: 90%;
+    transform: scale(0.8);
+    transition: transform 0.5s ease;
+    position: relative;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+}
+
+.medalha-popup.active .medalha-popup-content {
+    transform: scale(1);
+}
+
+.medalha-popup-img {
+    width: 150px;
+    height: 150px;
+    margin: 0 auto 20px;
+    display: block;
+    object-fit: contain;
+}
+
+.medalha-popup-title {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: var(--primary);
+}
+
+.medalha-popup-desc {
+    margin-bottom: 20px;
+    font-size: 16px;
+    color: #555;
+}
+
+.medalha-popup-btn {
+    padding: 10px 20px;
+    background: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background 0.3s ease;
+}
+
+.medalha-popup-btn:hover {
+    background: var(--hover-secondary);
+}
+
+.close-medalha-popup {
+    position: absolute;
+    top: 10px;
+    right: 15px;
+    font-size: 24px;
+    cursor: pointer;
+    color: #757575;
+    transition: color 0.3s ease;
+}
+
+.close-medalha-popup:hover {
+    color: #E53935;
+}
+
+/* Modo escuro */
+.dark-mode .medalha-popup-content {
+    background: #2c3e50;
+}
+
+.dark-mode .medalha-popup-title {
+    color: white;
+}
+
+.dark-mode .medalha-popup-desc {
+    color: #ccc;
 }
