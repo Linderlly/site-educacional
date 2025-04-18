@@ -12,7 +12,7 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("player-name").textContent = `Jogador: ${playerName}`;
 
    // ============== PERGUNTAS DO QUIZ ==============
- const questions = [
+   const questions = [
     { 
         type: "multiple", 
         question: "Qual fórmula soma um intervalo no Excel?", 
@@ -28,7 +28,7 @@ document.addEventListener("DOMContentLoaded", function () {
     { 
         type: "text", 
         question: "Qual atalho para salvar um arquivo no Excel?", 
-        answer: ["Ctrl + S", "ctrl+s", "ctrl + s", "CTRL+S", "CTRL + S", "Ctrl+S", "CTRL + s", "CTRL+s"] 
+        answer: ["Ctrl + B", "ctrl+b", "ctrl + b", "CTRL+B", "CTRL + B", "Ctrl+B", "CTRL + b", "CTRL+b"] 
     },
     { 
         type: "text", 
@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     { 
         type: "text", 
         question: "Qual o atalho para abrir uma nova planilha?", 
-        answer: ["Ctrl + N", "ctrl+n", "ctrl + n", "CTRL+N", "CTRL + N", "Ctrl+N", "CTRL + n", "CTRL+n"] 
+        answer: ["Ctrl + O", "ctrl+o", "ctrl + o", "CTRL+O", "CTRL + O", "Ctrl+O", "CTRL + o", "CTRL+o"] 
     },
     { 
         type: "multiple", 
@@ -125,13 +125,13 @@ document.addEventListener("DOMContentLoaded", function () {
         options: ["Formata células", "Soma datas", "Retorna a data atual", "Exclui valores"], 
         answer: "Retorna a data atual" 
     }
-];
-
+];	
     // ============== VARIÁVEIS DE ESTADO ==============
     let shuffledQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
     let quizCompleted = false;
+    let medalPopupActive = false;
 
     // ============== INICIALIZAÇÃO ==============
     initQuiz();
@@ -142,12 +142,9 @@ document.addEventListener("DOMContentLoaded", function () {
             return;
         }
 
-        // Embaralha questões e alternativas
         shuffledQuestions = shuffleQuestions([...questions]).map(q => {
             return q.type === "multiple" ? shuffleQuestionOptions(q) : q;
         });
-        
-        console.log("Questões e alternativas embaralhadas:", shuffledQuestions);
         
         setupEventListeners();
         tryPlayBackgroundMusic();
@@ -155,17 +152,15 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function setupEventListeners() {
-        // Botão de mudo
         document.getElementById("mute-btn").addEventListener("click", toggleMute);
-        
-        // Botões do quiz
         document.getElementById("check-btn").addEventListener("click", checkAnswer);
         document.getElementById("next-btn").addEventListener("click", nextQuestion);
-        
-        // Tecla Enter para resposta textual
         document.getElementById("text-answer").addEventListener("keypress", function(e) {
             if (e.key === "Enter") checkAnswer();
         });
+
+        document.querySelector('.medalha-popup-btn').addEventListener('click', closeMedalPopup);
+        document.querySelector('.close-medalha-popup').addEventListener('click', closeMedalPopup);
     }
 
     function tryPlayBackgroundMusic() {
@@ -176,7 +171,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // ============== LÓGICA DO QUIZ ==============
     function loadQuestion() {
-        if (quizCompleted) return;
+        if (quizCompleted || medalPopupActive) return;
         
         if (currentQuestionIndex >= shuffledQuestions.length) {
             finishQuiz();
@@ -192,7 +187,6 @@ document.addEventListener("DOMContentLoaded", function () {
             
             const currentQuestion = shuffledQuestions[currentQuestionIndex];
             document.getElementById("question").textContent = currentQuestion.question;
-            
             setupQuestionOptions(currentQuestion);
             
             quizContainer.classList.remove("fade-out");
@@ -205,8 +199,11 @@ document.addEventListener("DOMContentLoaded", function () {
         const optionsList = document.getElementById("options");
         optionsList.innerHTML = "";
         
-        document.getElementById("text-answer").style.display = "none";
-        document.getElementById("text-answer").value = "";
+        const textInput = document.getElementById("text-answer");
+        textInput.style.display = "none";
+        textInput.value = "";
+        textInput.removeAttribute("readonly");
+        
         document.getElementById("correct-answer").style.display = "none";
         document.getElementById("check-btn").style.display = "inline-block";
         document.getElementById("next-btn").disabled = true;
@@ -227,6 +224,8 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function selectOption(selectedOption, selectedElement) {
+        if (medalPopupActive) return;
+        
         const currentQuestion = shuffledQuestions[currentQuestionIndex];
         const correctAnswer = currentQuestion.originalAnswer || currentQuestion.answer;
         const isCorrect = correctAnswer === selectedOption;
@@ -241,17 +240,26 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function checkAnswer() {
+        if (medalPopupActive) return;
+        
         const currentQuestion = shuffledQuestions[currentQuestionIndex];
         
         if (currentQuestion.type === "text") {
-            const userAnswer = document.getElementById("text-answer").value.trim();
+            const textInput = document.getElementById("text-answer");
+            const userAnswer = textInput.value.trim();
+            
+            if (!userAnswer) {
+                alert("Por favor, digite sua resposta!");
+                return;
+            }
+            
             const normalizedAnswers = Array.isArray(currentQuestion.answer) 
                 ? currentQuestion.answer.map(ans => normalizeText(ans))
                 : [normalizeText(currentQuestion.answer)];
                 
             const isCorrect = normalizedAnswers.includes(normalizeText(userAnswer));
             handleAnswerFeedback(isCorrect, currentQuestion.answer);
-            document.getElementById("text-answer").setAttribute("readonly", true);
+            textInput.setAttribute("readonly", true);
         }
     }
 
@@ -259,14 +267,19 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isCorrect) {
             score++;
             audioManager.playSound('correct');
-            medalhaSystem.checkMilestones(score, shuffledQuestions.length);
+            
+            if (shouldShowMedal()) {
+                showMedal();
+            } else {
+                document.getElementById("next-btn").disabled = false;
+            }
         } else {
             audioManager.playSound('incorrect');
             showCorrectAnswer(correctAnswer);
+            document.getElementById("next-btn").disabled = false;
         }
         
         document.getElementById("check-btn").style.display = "none";
-        document.getElementById("next-btn").disabled = false;
     }
 
     function showCorrectAnswer(answer) {
@@ -277,10 +290,49 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     function nextQuestion() {
+        if (medalPopupActive) return;
+        
         currentQuestionIndex++;
         loadQuestion();
     }
 
+    // ============== SISTEMA DE MEDALHAS ==============
+    function shouldShowMedal() {
+        const milestones = {
+            'bronze': 10,
+            'silver': 15,
+            'gold': shuffledQuestions.length
+        };
+        
+        return Object.values(milestones).includes(score);
+    }
+
+    function showMedal() {
+        medalPopupActive = true;
+        const medalType = getMedalType();
+        const medalData = medalhaSystem.getMedalData(medalType);
+        
+        document.querySelector('.medalha-popup-img').src = medalData.img;
+        document.querySelector('.medalha-popup-title').textContent = medalData.title;
+        document.querySelector('.medalha-popup-desc').textContent = medalData.desc;
+        
+        document.getElementById('medalha-popup').classList.add('active');
+        document.getElementById("next-btn").disabled = false;
+    }
+
+    function closeMedalPopup() {
+        document.getElementById('medalha-popup').classList.remove('active');
+        medalPopupActive = false;
+    }
+
+    function getMedalType() {
+        if (score === shuffledQuestions.length) return 'gold';
+        if (score >= 15) return 'silver';
+        if (score >= 10) return 'bronze';
+        return '';
+    }
+
+    // ============== FINALIZAÇÃO ==============
     function finishQuiz() {
         quizCompleted = true;
         const container = document.querySelector(".container");
@@ -298,7 +350,12 @@ document.addEventListener("DOMContentLoaded", function () {
         saveScore();
         displayRanking();
         audioManager.sounds.background.pause();
-        fireConfetti();
+        
+        if (shouldShowMedal()) {
+            showMedal();
+        } else {
+            fireConfetti();
+        }
     }
 
     // ============== FUNÇÕES AUXILIARES ==============

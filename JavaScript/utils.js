@@ -1,7 +1,5 @@
 /**
  * Embaralha um array usando o algoritmo Fisher-Yates
- * @param {Array} array - Array a ser embaralhado
- * @returns {Array} - Novo array embaralhado
  */
 export function shuffleArray(array) {
     const newArray = [...array];
@@ -14,8 +12,6 @@ export function shuffleArray(array) {
 
 /**
  * Embaralha as questões mantendo a proporção de tipos
- * @param {Array} questions - Array de questões
- * @returns {Array} - Questões embaralhadas
  */
 export function shuffleQuestions(questions) {
     const multipleChoice = questions.filter(q => q.type === "multiple");
@@ -25,9 +21,7 @@ export function shuffleQuestions(questions) {
 }
 
 /**
- * Embaralha as opções de uma questão de múltipla escolha
- * @param {Object} question - Questão a ser processada
- * @returns {Object} - Questão com opções embaralhadas
+ * Embaralha as opções de questões de múltipla escolha
  */
 export function shuffleQuestionOptions(question) {
     if (question.type !== "multiple") return question;
@@ -36,15 +30,13 @@ export function shuffleQuestionOptions(question) {
     return {
         ...question,
         options: shuffledOptions,
-        originalAnswer: question.answer, // Preserva a resposta original
-        answer: shuffledOptions[question.options.indexOf(question.answer)] // Mapeia nova posição
+        originalAnswer: question.answer,
+        answer: shuffledOptions[question.options.indexOf(question.answer)]
     };
 }
 
 /**
- * Normaliza texto para comparação (remove acentos e coloca em minúsculas)
- * @param {string} str - Texto a normalizar
- * @returns {string} - Texto normalizado
+ * Normaliza texto para comparação
  */
 export function normalizeText(str) {
     return str.normalize("NFD")

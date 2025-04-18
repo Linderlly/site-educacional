@@ -4,50 +4,32 @@ class MedalhaSystem {
             'bronze': { 
                 img: '../img/medalha-bronze.png',
                 title: 'Medalha de Bronze!',
-                desc: 'Parabéns! Você acertou 10 perguntas!',
-                condition: (score, total) => score >= 10
+                desc: 'Parabéns! Você acertou 10 perguntas!'
             },
             'silver': { 
                 img: '../img/medalha-prata.png',
                 title: 'Medalha de Prata!',
-                desc: 'Incrível! Você acertou 15 perguntas!',
-                condition: (score, total) => score >= 15
+                desc: 'Incrível! Você acertou 15 perguntas!'
             },
             'gold': { 
                 img: '../img/medalha-ouro.png',
                 title: 'Medalha de Ouro!',
-                desc: 'Perfeito! Você acertou todas as perguntas!',
-                condition: (score, total) => score === total
+                desc: 'Perfeito! Você acertou todas as perguntas!'
             }
         };
     }
 
-    checkMilestones(score, totalQuestions) {
-        if (this.medalhas.gold.condition(score, totalQuestions)) {
-            this.showMedal('gold');
-        } else if (this.medalhas.silver.condition(score, totalQuestions)) {
-            this.showMedal('silver');
-        } else if (this.medalhas.bronze.condition(score, totalQuestions)) {
-            this.showMedal('bronze');
-        }
+    // Método adicionado para corrigir o erro
+    getMedalData(medalType) {
+        return this.medalhas[medalType] || {};
     }
 
-    showMedal(medalType) {
-        const medal = this.medalhas[medalType];
-        const medalPopup = document.getElementById('medalha-popup');
-        
-        document.querySelector('.medalha-popup-img').src = medal.img;
-        document.querySelector('.medalha-popup-title').textContent = medal.title;
-        document.querySelector('.medalha-popup-desc').textContent = medal.desc;
-        
-        medalPopup.classList.add('active');
-        
-        const closePopup = () => medalPopup.classList.remove('active');
-        document.querySelector('.close-medalha-popup').onclick = closePopup;
-        document.querySelector('.medalha-popup-btn').onclick = closePopup;
-        medalPopup.onclick = (e) => e.target === medalPopup && closePopup();
-
-        fireConfetti();
+    // Método mantido para compatibilidade
+    checkMilestones(score, totalQuestions) {
+        if (score === totalQuestions) return 'gold';
+        if (score >= 15) return 'silver';
+        if (score >= 10) return 'bronze';
+        return null;
     }
 }
 
