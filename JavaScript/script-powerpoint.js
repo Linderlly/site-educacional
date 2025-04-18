@@ -1,302 +1,339 @@
+import MedalhaSystem from './sistema-medalhas.js';
+import AudioManager from './audio-manager.js';
+import { shuffleQuestions, normalizeText, fireConfetti, shuffleQuestionOptions } from './utils.js';
+
 document.addEventListener("DOMContentLoaded", function () {
+    // ============== INICIALIZAÇÃO DOS MÓDULOS ==============
+    const medalhaSystem = new MedalhaSystem();
+    const audioManager = new AudioManager();
+
     // ============== CONFIGURAÇÕES INICIAIS ==============
     const playerName = localStorage.getItem("username") || "Aluno";
     document.getElementById("player-name").textContent = `Jogador: ${playerName}`;
 
-    // Elementos de áudio
-    const correctSound = document.getElementById("correct-sound");
-    const incorrectSound = document.getElementById("incorrect-sound");
-    const backgroundMusic = document.getElementById("background-music");
+// ============== PERGUNTAS DO QUIZ ==============
+const questions = [
+    { 
+        type: "multiple", 
+        question: "Qual atalho inicia a apresentação de slides no PowerPoint?", 
+        options: ["F5", "Ctrl + S", "Ctrl + P", "F12"], 
+        answer: "F5" 
+    },
+    { 
+        type: "multiple", 
+        question: "Qual guia permite adicionar animações no PowerPoint?", 
+        options: ["Animação", "Inserir", "Design", "Transição"], 
+        answer: "Animação" 
+    },
+    { 
+        type: "text", 
+        question: "Qual atalho para salvar uma apresentação no PowerPoint?", 
+        answer: ["Ctrl + B", "ctrl+b", "ctrl + b", "CTRL+B", "CTRL + B", "Ctrl+B", "CTRL + b", "CTRL+b"] 
+    },
+    { 
+        type: "text", 
+        question: "Qual atalho para duplicar um slide no PowerPoint?", 
+        answer: ["Ctrl + D", "ctrl+d", "ctrl + d", "CTRL+D", "CTRL + D", "Ctrl+D", "CTRL + d", "CTRL+d"] 
+    },
+    { 
+        type: "text", 
+        question: "Qual guia permite gravar a apresentação de Slides no PowerPoint", 
+        answer: ["GRAVAÇÃO", "Gravação", "Gravacao", "GRAVACAO", "Gravaçao", "GRAVAÇAO"] 
+    },
+    { 
+        type: "multiple", 
+        question: "O que é um slide mestre no PowerPoint?", 
+        options: ["Um modelo de slide", "Um slide animado", "Um slide oculto", "Um slide de título"], 
+        answer: "Um modelo de slide" 
+    },
+    { 
+        type: "multiple", 
+        question: "Qual guia permite adicionar transições entre slides?", 
+        options: ["Transição", "Animação", "Design", "Inserir"], 
+        answer: "Transição" 
+    },
+    { 
+        type: "multiple", 
+        question: "O que é um tema no PowerPoint?", 
+        options: ["Um conjunto de cores e fontes", "Um tipo de animação", "Um modelo de slide", "Um atalho de teclado"], 
+        answer: "Um conjunto de cores e fontes" 
+    },
+    { 
+        type: "text", 
+        question: "Qual atalho para inserir um novo slide no PowerPoint?", 
+        answer: ["Ctrl + M", "ctrl+m", "ctrl + m", "CTRL+M", "CTRL + M", "Ctrl+M", "CTRL + m", "CTRL+m"] 
+    },
+    { 
+        type: "multiple", 
+        question: "O que é um layout de slide no PowerPoint?", 
+        options: ["Um modelo de organização de conteúdo", "Um tipo de animação", "Um slide mestre", "Um tema"], 
+        answer: "Um modelo de organização de conteúdo" 
+    },
+    { 
+        type: "multiple", 
+        question: "Qual atalho exibe um slide em tela cheia no PowerPoint?", 
+        options: ["Shift + F5", "Ctrl + F5", "Alt + F5", "F12"], 
+        answer: "Shift + F5" 
+    },
+    { 
+        type: "multiple", 
+        question: "Qual guia permite adicionar gráficos em uma apresentação do PowerPoint?", 
+        options: ["Inserir", "Design", "Animação", "Transição"], 
+        answer: "Inserir" 
+    },
+    { 
+        type: "text", 
+        question: "Qual atalho para desfazer uma ação no PowerPoint?", 
+        answer: ["Ctrl + Z", "ctrl+z", "ctrl + z", "CTRL+Z", "CTRL + Z", "Ctrl+Z", "CTRL + z", "CTRL+z"] 
+    },
+    { 
+        type: "text", 
+        question: "Qual atalho para refazer uma ação no PowerPoint?", 
+        answer: ["Ctrl + Y", "ctrl+y", "ctrl + y", "CTRL+Y", "CTRL + Y", "Ctrl+Y", "CTRL + y", "CTRL+y"] 
+    },
+    { 
+        type: "multiple", 
+        question: "Onde você pode alterar o tamanho dos slides no PowerPoint?", 
+        options: ["Design > Tamanho do Slide", "Inserir > Layout", "Animação > Personalizar Animação", "Exibição > Modos de Exibição"], 
+        answer: "Design > Tamanho do Slide" 
+    },
+    { 
+        type: "multiple", 
+        question: "Qual guia permite inserir vídeos no PowerPoint?", 
+        options: ["Inserir", "Design", "Animação", "Exibição"], 
+        answer: "Inserir" 
+    },
+    { 
+        type: "text", 
+        question: "Qual atalho para abrir uma nova apresentação no PowerPoint?", 
+        answer: ["Ctrl + O", "ctrl+o", "ctrl + o", "CTRL+O", "CTRL + O", "Ctrl+O", "CTRL + o", "CTRL+o"] 
+    },
+    { 
+        type: "multiple", 
+        question: "Qual ferramenta do PowerPoint permite desenhar à mão livre em um slide?", 
+        options: ["Caneta", "Marcador", "Pincel", "Borracha"], 
+        answer: "Caneta" 
+    },
+    { 
+        type: "text", 
+        question: "Qual atalho para iniciar a apresentação de slides do slide atual?", 
+        answer: ["Shift + F5", "shift+f5", "Shift+F5", "SHIFT+F5", "SHIFT + F5", "shift + f5"] 
+    },
+    { 
+        type: "multiple", 
+        question: "Qual formato padrão de arquivo é usado no PowerPoint?", 
+        options: [".pptx", ".docx", ".xlsx", ".pdf"], 
+        answer: ".pptx" 
+    }
+];
 
-    // Controles de áudio
-    const muteBtn = document.getElementById("mute-btn");
-    let isMuted = false;
-
-    // ============== PERGUNTAS DO QUIZ ==============
-    const questions = [
-        { type: "multiple", question: "Qual atalho inicia a apresentação de slides no PowerPoint?", options: ["F5", "Ctrl + S", "Ctrl + P", "F12"], answer: "F5" },
-        { type: "multiple", question: "Qual guia permite adicionar animações no PowerPoint?", options: ["Animação", "Inserir", "Design", "Transição"], answer: "Animação" },
-        { type: "text", question: "Qual atalho para salvar uma apresentação no PowerPoint?", answer: ["Ctrl + S", "ctrl+s", "ctrl + s", "CTRL+S", "CTRL + S", "Ctrl+S", "CTRL + s", "CTRL+s"] },
-        { type: "text", question: "Qual atalho para duplicar um slide no PowerPoint?", answer: ["Ctrl + D", "ctrl+d", "ctrl + d", "CTRL+D", "CTRL + D", "Ctrl+D", "CTRL + d", "CTRL+d"] },
-        { type: "text", question: "Qual atalho para criar uma nova apresentação no PowerPoint?", answer: ["Ctrl + N", "ctrl+n", "ctrl + n", "CTRL+N", "CTRL + N", "Ctrl+N", "CTRL + n", "CTRL+n"] },
-        { type: "multiple", question: "O que é um slide mestre no PowerPoint?", options: ["Um modelo de slide", "Um slide animado", "Um slide oculto", "Um slide de título"], answer: "Um modelo de slide" },
-        { type: "multiple", question: "Qual guia permite adicionar transições entre slides?", options: ["Transição", "Animação", "Design", "Inserir"], answer: "Transição" },
-        { type: "multiple", question: "O que é um tema no PowerPoint?", options: ["Um conjunto de cores e fontes", "Um tipo de animação", "Um modelo de slide", "Um atalho de teclado"], answer: "Um conjunto de cores e fontes" },
-        { type: "text", question: "Qual atalho para inserir um novo slide no PowerPoint?", answer: ["Ctrl + M", "ctrl+m", "ctrl + m", "CTRL+M", "CTRL + M", "Ctrl+M", "CTRL + m", "CTRL+m"] },
-        { type: "multiple", question: "O que é um layout de slide no PowerPoint?", options: ["Um modelo de organização de conteúdo", "Um tipo de animação", "Um slide mestre", "Um tema"], answer: "Um modelo de organização de conteúdo" },
-        { type: "multiple", question: "Qual atalho exibe um slide em tela cheia no PowerPoint?", options: ["Shift + F5", "Ctrl + F5", "Alt + F5", "F12"], answer: "Shift + F5" },
-        { type: "multiple", question: "Qual guia permite adicionar gráficos em uma apresentação do PowerPoint?", options: ["Inserir", "Design", "Animação", "Transição"], answer: "Inserir" },
-        { type: "text", question: "Qual atalho para desfazer uma ação no PowerPoint?", answer: ["Ctrl + Z", "ctrl+z", "ctrl + z", "CTRL+Z", "CTRL + Z", "Ctrl+Z", "CTRL + z", "CTRL+z"] },
-        { type: "text", question: "Qual atalho para refazer uma ação no PowerPoint?", answer: ["Ctrl + Y", "ctrl+y", "ctrl + y", "CTRL+Y", "CTRL + Y", "Ctrl+Y", "CTRL + y", "CTRL+y"] },
-        { type: "multiple", question: "Onde você pode alterar o tamanho dos slides no PowerPoint?", options: ["Design > Tamanho do Slide", "Inserir > Layout", "Animação > Personalizar Animação", "Exibição > Modos de Exibição"], answer: "Design > Tamanho do Slide" },
-        { type: "multiple", question: "Qual guia permite inserir vídeos no PowerPoint?", options: ["Inserir", "Design", "Animação", "Exibição"], answer: "Inserir" },
-        { type: "text", question: "Qual atalho para abrir uma apresentação existente no PowerPoint?", answer: ["Ctrl + O", "ctrl+o", "ctrl + o", "CTRL+O", "CTRL + O", "Ctrl+O", "CTRL + o", "CTRL+o"] },
-        { type: "multiple", question: "Qual ferramenta do PowerPoint permite desenhar à mão livre em um slide?", options: ["Caneta", "Marcador", "Pincel", "Borracha"], answer: "Caneta" },
-        { type: "text", question: "Qual atalho para iniciar a apresentação de slides do slide atual?", answer: ["Shift + F5", "shift+f5", "Shift+F5", "SHIFT+F5", "SHIFT + F5", "shift + f5"] },
-        { type: "multiple", question: "Qual formato padrão de arquivo é usado no PowerPoint?", options: [".pptx", ".docx", ".xlsx", ".pdf"], answer: ".pptx" },
-
-    ];
     // ============== VARIÁVEIS DE ESTADO ==============
-    let shuffledQuestions = shuffleQuestions([...questions]);
+    let shuffledQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
-    let hintsUsed = 0;
+    let quizCompleted = false;
 
     // ============== INICIALIZAÇÃO ==============
-    init();
+    initQuiz();
 
-    // ============== FUNÇÕES PRINCIPAIS ==============
-    function init() {
+    function initQuiz() {
+        if (questions.length === 0) {
+            showError("Nenhuma pergunta foi definida no quiz!");
+            return;
+        }
+
+        // Embaralha questões e alternativas
+        shuffledQuestions = shuffleQuestions([...questions]).map(q => {
+            return q.type === "multiple" ? shuffleQuestionOptions(q) : q;
+        });
+        
+        console.log("Questões e alternativas embaralhadas:", shuffledQuestions);
+        
         setupEventListeners();
         tryPlayBackgroundMusic();
         loadQuestion();
     }
 
     function setupEventListeners() {
-        // Controle de áudio
-        muteBtn.addEventListener("click", toggleMute);
+        // Botão de mudo
+        document.getElementById("mute-btn").addEventListener("click", toggleMute);
         
-        // Botão de verificar (para perguntas textuais)
-        document.getElementById("check-btn").addEventListener("click", checkTextAnswer);
-        
-        // Botão de próxima pergunta
+        // Botões do quiz
+        document.getElementById("check-btn").addEventListener("click", checkAnswer);
         document.getElementById("next-btn").addEventListener("click", nextQuestion);
         
-        // Botão de reiniciar (definido globalmente)
-        window.restartQuiz = restartQuiz;
+        // Tecla Enter para resposta textual
+        document.getElementById("text-answer").addEventListener("keypress", function(e) {
+            if (e.key === "Enter") checkAnswer();
+        });
     }
 
     function tryPlayBackgroundMusic() {
-        backgroundMusic.play().catch(e => {
-            console.log("Reprodução automática bloqueada. Mostrar botão de ativação.");
-            // Aqui você pode mostrar um botão para o usuário ativar o som
+        audioManager.sounds.background.play().catch(e => {
+            console.log("Reprodução automática bloqueada");
         });
     }
 
     // ============== LÓGICA DO QUIZ ==============
     function loadQuestion() {
-        const quizContainer = document.getElementById("quiz-container");
+        if (quizCompleted) return;
         
-        // Animação de transição
+        if (currentQuestionIndex >= shuffledQuestions.length) {
+            finishQuiz();
+            return;
+        }
+
+        const quizContainer = document.getElementById("quiz-container");
         quizContainer.classList.add("fade-out");
+
         setTimeout(() => {
-            quizContainer.classList.remove("fade-out");
-            
-            // Atualiza contador de progresso
+            resetQuestionUI();
             updateProgress();
             
             const currentQuestion = shuffledQuestions[currentQuestionIndex];
             document.getElementById("question").textContent = currentQuestion.question;
             
-            // Limpa opções anteriores
-            const optionsList = document.getElementById("options");
-            optionsList.innerHTML = "";
+            setupQuestionOptions(currentQuestion);
             
-            // Configura campo de texto ou múltipla escolha
-            const textInput = document.getElementById("text-answer");
-            if (currentQuestion.type === "multiple") {
-                textInput.style.display = "none";
-                currentQuestion.options.forEach(option => {
-                    const li = document.createElement("li");
-                    li.textContent = option;
-                    li.addEventListener("click", () => checkAnswer(option, li));
-                    optionsList.appendChild(li);
-                });
-            } else {
-                textInput.style.display = "block";
-                textInput.value = "";
-                textInput.removeAttribute("readonly");
-            }
-            
-            // Reseta elementos de feedback
-            document.getElementById("correct-answer").style.display = "none";
-            document.getElementById("check-btn").style.display = "inline-block";
-            document.getElementById("next-btn").disabled = true;
-            
-            // Animação de entrada
+            quizContainer.classList.remove("fade-out");
             quizContainer.classList.add("fade-in");
             setTimeout(() => quizContainer.classList.remove("fade-in"), 500);
-            
-        }, 500);
+        }, 300);
     }
 
-    function checkAnswer(selectedOption, selectedElement) {
-        const currentQuestion = shuffledQuestions[currentQuestionIndex];
-        const correctAnswerText = document.getElementById("correct-answer");
+    function resetQuestionUI() {
+        const optionsList = document.getElementById("options");
+        optionsList.innerHTML = "";
         
-        // Marca todas as opções
+        document.getElementById("text-answer").style.display = "none";
+        document.getElementById("text-answer").value = "";
+        document.getElementById("correct-answer").style.display = "none";
+        document.getElementById("check-btn").style.display = "inline-block";
+        document.getElementById("next-btn").disabled = true;
+    }
+
+    function setupQuestionOptions(question) {
+        if (question.type === "multiple") {
+            const optionsList = document.getElementById("options");
+            question.options.forEach(option => {
+                const li = document.createElement("li");
+                li.textContent = option;
+                li.addEventListener("click", () => selectOption(option, li));
+                optionsList.appendChild(li);
+            });
+        } else {
+            document.getElementById("text-answer").style.display = "block";
+        }
+    }
+
+    function selectOption(selectedOption, selectedElement) {
+        const currentQuestion = shuffledQuestions[currentQuestionIndex];
+        const correctAnswer = currentQuestion.originalAnswer || currentQuestion.answer;
+        const isCorrect = correctAnswer === selectedOption;
+        
         document.querySelectorAll("#options li").forEach(li => {
-            const isCorrect = currentQuestion.answer === li.textContent;
-            li.classList.add(isCorrect ? "correct" : "incorrect");
+            const optionIsCorrect = correctAnswer === li.textContent;
+            li.classList.add(optionIsCorrect ? "correct" : "incorrect");
             li.style.pointerEvents = "none";
         });
-        
-        // Verifica se acertou
-        const isCorrect = currentQuestion.answer === selectedOption;
-        handleAnswerFeedback(isCorrect, currentQuestion.answer);
+
+        handleAnswerFeedback(isCorrect, correctAnswer);
     }
 
-    function checkTextAnswer() {
+    function checkAnswer() {
         const currentQuestion = shuffledQuestions[currentQuestionIndex];
-        const userAnswer = document.getElementById("text-answer").value.trim();
-        const normalizedAnswers = currentQuestion.answer.map(ans => normalizeText(ans));
-        const isCorrect = normalizedAnswers.includes(normalizeText(userAnswer));
         
-        handleAnswerFeedback(isCorrect, currentQuestion.answer[0]);
-        document.getElementById("text-answer").setAttribute("readonly", true);
+        if (currentQuestion.type === "text") {
+            const userAnswer = document.getElementById("text-answer").value.trim();
+            const normalizedAnswers = Array.isArray(currentQuestion.answer) 
+                ? currentQuestion.answer.map(ans => normalizeText(ans))
+                : [normalizeText(currentQuestion.answer)];
+                
+            const isCorrect = normalizedAnswers.includes(normalizeText(userAnswer));
+            handleAnswerFeedback(isCorrect, currentQuestion.answer);
+            document.getElementById("text-answer").setAttribute("readonly", true);
+        }
     }
 
     function handleAnswerFeedback(isCorrect, correctAnswer) {
         if (isCorrect) {
             score++;
-            playSound(correctSound);
-            checkMilestones();
+            audioManager.playSound('correct');
+            medalhaSystem.checkMilestones(score, shuffledQuestions.length);
         } else {
-            playSound(incorrectSound);
-            document.getElementById("correct-answer").textContent = `Resposta correta: ${correctAnswer}`;
-            document.getElementById("correct-answer").style.display = "block";
+            audioManager.playSound('incorrect');
+            showCorrectAnswer(correctAnswer);
         }
         
         document.getElementById("check-btn").style.display = "none";
         document.getElementById("next-btn").disabled = false;
     }
 
+    function showCorrectAnswer(answer) {
+        const correctAnswerText = Array.isArray(answer) ? answer[0] : answer;
+        const correctAnswerElement = document.getElementById("correct-answer");
+        correctAnswerElement.textContent = `Resposta correta: ${correctAnswerText}`;
+        correctAnswerElement.style.display = "block";
+    }
+
     function nextQuestion() {
         currentQuestionIndex++;
-        if (currentQuestionIndex < shuffledQuestions.length) {
-            loadQuestion();
-        } else {
-            finishQuiz();
-        }
+        loadQuestion();
     }
 
-    // ============== SISTEMA DE MEDALHAS ==============
-    function checkMilestones() {
-        if (score === 10) {
-            showMedal('bronze');
-        } else if (score === 15) {
-            showMedal('silver');
-        } else if (score === shuffledQuestions.length) {
-            showMedal('gold');
-        }
-    }
-
-    function showMedal(medalType) {
-        const medalData = {
-            'bronze': { 
-                img: '../img/medalha-bronze.png',
-                title: 'Medalha de Bronze!',
-                desc: 'Parabéns! Você acertou 10 perguntas!'
-            },
-            'silver': { 
-                img: '../img/medalha-prata.png',
-                title: 'Medalha de Prata!',
-                desc: 'Incrível! Você acertou 15 perguntas!'
-            },
-            'gold': { 
-                img: '../img/medalha-ouro.png',
-                title: 'Medalha de Ouro!',
-                desc: 'Perfeito! Você acertou todas as perguntas!'
-            }
-        };
-        
-        const medal = medalData[medalType];
-        const medalPopup = document.getElementById('medalha-popup');
-        
-        // Configura o popup
-        document.querySelector('.medalha-popup-img').src = medal.img;
-        document.querySelector('.medalha-popup-title').textContent = medal.title;
-        document.querySelector('.medalha-popup-desc').textContent = medal.desc;
-        
-        // Mostra o popup
-        medalPopup.classList.add('active');
-        
-        // Configura eventos para fechar
-        const closePopup = () => medalPopup.classList.remove('active');
-        document.querySelector('.close-medalha-popup').onclick = closePopup;
-        document.querySelector('.medalha-popup-btn').onclick = closePopup;
-        medalPopup.onclick = (e) => e.target === medalPopup && closePopup();
-        
-        // Efeitos de confete
-        fireConfetti();
-    }
-
-    // ============== FINALIZAÇÃO DO QUIZ ==============
     function finishQuiz() {
+        quizCompleted = true;
         const container = document.querySelector(".container");
         container.innerHTML = `
-            <h1>Parabéns, ${playerName}!</h1>
-            <p>Você acertou <strong>${score}</strong> de <strong>${shuffledQuestions.length}</strong> questões.</p>
-            <h2>Ranking dos Melhores</h2>
+            <h1>Quiz Concluído!</h1>
+            <p>${playerName}, você acertou <strong>${score}</strong> de <strong>${shuffledQuestions.length}</strong> questões.</p>
+            <div class="score-display ${getScoreClass()}">
+                ${calculatePercentage()}% de acertos
+            </div>
+            <h2>Top 10 Melhores</h2>
             <ol id="ranking-list"></ol>
             <button onclick="restartQuiz()">Tentar Novamente</button>
         `;
         
         saveScore();
         displayRanking();
-        backgroundMusic.pause();
-        
-        // Verifica se merece medalha ao finalizar
-        if (score === shuffledQuestions.length) {
-            showMedal('gold');
-        } else if (score >= 15 && shuffledQuestions.length >= 15) {
-            showMedal('silver');
-        } else if (score >= 10) {
-            showMedal('bronze');
-        }
+        audioManager.sounds.background.pause();
+        fireConfetti();
     }
 
     // ============== FUNÇÕES AUXILIARES ==============
     function toggleMute() {
-        isMuted = !isMuted;
-        if (isMuted) {
-            backgroundMusic.pause();
-            muteBtn.innerHTML = '<i class="fas fa-volume-mute"></i>';
-        } else {
-            backgroundMusic.play();
-            muteBtn.innerHTML = '<i class="fas fa-music"></i>';
-        }
-    }
-
-    function playSound(audioElement) {
-        if (isMuted) return;
-        audioElement.currentTime = 0;
-        audioElement.play().catch(e => console.error("Erro ao reproduzir som:", e));
-    }
-
-    function fireConfetti() {
-        confetti({ particleCount: 150, spread: 70, origin: { y: 0.6 } });
-        setTimeout(() => confetti({ particleCount: 100, spread: 60, origin: { y: 0.5 } }), 500);
-        setTimeout(() => confetti({ particleCount: 200, spread: 90, origin: { y: 0.7 } }), 1000);
+        const isMuted = audioManager.toggleMute();
+        document.getElementById("mute-btn").innerHTML = isMuted 
+            ? '<i class="fas fa-volume-mute"></i>' 
+            : '<i class="fas fa-music"></i>';
     }
 
     function updateProgress() {
         document.getElementById("current-question").textContent = currentQuestionIndex + 1;
         document.getElementById("total-questions").textContent = shuffledQuestions.length;
-        
-        // Atualiza barra de progresso (se existir)
-        const progressBar = document.getElementById("progress");
-        if (progressBar) {
-            const progress = ((currentQuestionIndex + 1) / shuffledQuestions.length) * 100;
-            progressBar.style.width = `${progress}%`;
-        }
     }
 
-    function normalizeText(str) {
-        return str.normalize("NFD").replace(/[\u0300-\u036f]/g, "").toLowerCase().trim();
+    function calculatePercentage() {
+        return Math.round((score / shuffledQuestions.length) * 100);
     }
 
-    function shuffleQuestions(array) {
-        for (let i = array.length - 1; i > 0; i--) {
-            const j = Math.floor(Math.random() * (i + 1));
-            [array[i], array[j]] = [array[j], array[i]];
-        }
-        return array;
+    function getScoreClass() {
+        const percentage = calculatePercentage();
+        if (percentage >= 80) return "excellent";
+        if (percentage >= 60) return "good";
+        if (percentage >= 40) return "average";
+        return "poor";
     }
 
     function saveScore() {
         let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
-        ranking.push({ name: playerName, score });
+        ranking.push({ 
+            name: playerName, 
+            score,
+            date: new Date().toLocaleDateString(),
+            total: shuffledQuestions.length
+        });
         ranking.sort((a, b) => b.score - a.score);
         localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10)));
     }
@@ -308,12 +345,37 @@ document.addEventListener("DOMContentLoaded", function () {
         
         ranking.forEach((player, index) => {
             const li = document.createElement("li");
-            li.textContent = `${index + 1}. ${player.name} - ${player.score} pts`;
+            li.innerHTML = `
+                <span class="rank">${index + 1}.</span>
+                <span class="name">${player.name}</span>
+                <span class="score">${player.score}/${player.total}</span>
+                <span class="date">${player.date}</span>
+            `;
             rankingList.appendChild(li);
         });
     }
 
-    function restartQuiz() {
-        window.location.href = "/site-educacional/index.html";
+    function showError(message) {
+        const container = document.querySelector(".container");
+        container.innerHTML = `
+            <div class="error-message">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h2>Erro no Quiz</h2>
+                <p>${message}</p>
+                <button onclick="window.location.href='/site-educacional/index.html'">Voltar</button>
+            </div>
+        `;
+        console.error(message);
     }
 });
+
+// Funções globais
+window.restartQuiz = function() {
+    window.location.reload();
+};
+
+window.toggleDarkMode = function() {
+    document.body.classList.toggle("dark-mode");
+    const isDarkMode = document.body.classList.contains("dark-mode");
+    localStorage.setItem("darkMode", isDarkMode);
+};
