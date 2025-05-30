@@ -7,6 +7,18 @@ document.addEventListener("DOMContentLoaded", function () {
     const medalhaSystem = new MedalhaSystem();
     const audioManager = new AudioManager();
 
+document.addEventListener("keydown", function (event) {
+  const input = document.getElementById("text-answer");
+  if (!input) return;
+
+  if (event.key === "Control") {
+    event.preventDefault();
+    input.value += "CTRL + ";
+    input.focus();
+  }
+});
+
+
     // ============== CONFIGURAÇÕES INICIAIS ==============
     const playerName = localStorage.getItem("username") || "Aluno";
     document.getElementById("player-name").textContent = `Jogador: ${playerName}`;
@@ -200,6 +212,7 @@ const questions = [
         optionsList.innerHTML = "";
         
         const textInput = document.getElementById("text-answer");
+        textInput.classList.remove("correct", "incorrect");
         textInput.style.display = "none";
         textInput.value = "";
         textInput.removeAttribute("readonly");
@@ -260,6 +273,18 @@ const questions = [
             const isCorrect = normalizedAnswers.includes(normalizeText(userAnswer));
             handleAnswerFeedback(isCorrect, currentQuestion.answer);
             textInput.setAttribute("readonly", true);
+        
+       // Adiciona classe visual com base na resposta
+        if (isCorrect) {
+            textInput.classList.add("correct");
+            textInput.classList.remove("incorrect");
+        } else {
+            textInput.classList.add("incorrect");
+            textInput.classList.remove("correct");
+        }
+
+        handleAnswerFeedback(isCorrect, currentQuestion.answer);
+        textInput.setAttribute("readonly", true);
         }
     }
 
