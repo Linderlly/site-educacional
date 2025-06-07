@@ -3,23 +3,20 @@ import AudioManager from './audio-manager.js';
 import { shuffleQuestions, normalizeText, fireConfetti, shuffleQuestionOptions } from './utils.js';
 
 document.addEventListener("DOMContentLoaded", function () {
-    // ============== INICIALIZAÇÃO DOS MÓDULOS ==============
     const medalhaSystem = new MedalhaSystem();
     const audioManager = new AudioManager();
 
-document.addEventListener("keydown", function (event) {
-  const input = document.getElementById("text-answer");
-  if (!input) return;
+    document.addEventListener("keydown", function (event) {
+        const input = document.getElementById("text-answer");
+        if (!input) return;
 
-  if (event.key === "Control") {
-    event.preventDefault();
-    input.value += "CTRL + ";
-    input.focus();
-  }
-});
+        if (event.key === "Control") {
+            event.preventDefault();
+            input.value += "CTRL + ";
+            input.focus();
+        }
+    });
 
-
-    // ============== CONFIGURAÇÕES INICIAIS ==============
     const playerName = localStorage.getItem("username") || "Aluno";
     document.getElementById("player-name").textContent = `Jogador: ${playerName}`;
 
@@ -138,26 +135,18 @@ const questions = [
         answer: ".pptx" 
     }
 ];
-    // ============== VARIÁVEIS DE ESTADO ==============
     let shuffledQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
     let quizCompleted = false;
     let medalPopupActive = false;
 
-    // ============== INICIALIZAÇÃO ==============
     initQuiz();
 
     function initQuiz() {
-        if (questions.length === 0) {
-            showError("Nenhuma pergunta foi definida no quiz!");
-            return;
-        }
-
-        shuffledQuestions = shuffleQuestions([...questions]).map(q => {
-            return q.type === "multiple" ? shuffleQuestionOptions(q) : q;
-        });
-        
+        shuffledQuestions = shuffleQuestions([...questions]).map(q =>
+            q.type === "multiple" ? shuffleQuestionOptions(q) : q
+        );
         setupEventListeners();
         tryPlayBackgroundMusic();
         loadQuestion();
@@ -167,24 +156,22 @@ const questions = [
         document.getElementById("mute-btn").addEventListener("click", toggleMute);
         document.getElementById("check-btn").addEventListener("click", checkAnswer);
         document.getElementById("next-btn").addEventListener("click", nextQuestion);
-        document.getElementById("text-answer").addEventListener("keypress", function(e) {
+        document.getElementById("text-answer").addEventListener("keypress", function (e) {
             if (e.key === "Enter") checkAnswer();
         });
 
-        document.querySelector('.medalha-popup-btn').addEventListener('click', closeMedalPopup);
-        document.querySelector('.close-medalha-popup').addEventListener('click', closeMedalPopup);
+        document.querySelector(".medalha-popup-btn").addEventListener("click", closeMedalPopup);
+        document.querySelector(".close-medalha-popup").addEventListener("click", closeMedalPopup);
     }
 
     function tryPlayBackgroundMusic() {
-        audioManager.sounds.background.play().catch(e => {
+        audioManager.sounds.background.play().catch(() => {
             console.log("Reprodução automática bloqueada");
         });
     }
 
-    // ============== LÓGICA DO QUIZ ==============
     function loadQuestion() {
         if (quizCompleted || medalPopupActive) return;
-        
         if (currentQuestionIndex >= shuffledQuestions.length) {
             finishQuiz();
             return;
@@ -196,11 +183,11 @@ const questions = [
         setTimeout(() => {
             resetQuestionUI();
             updateProgress();
-            
+
             const currentQuestion = shuffledQuestions[currentQuestionIndex];
             document.getElementById("question").textContent = currentQuestion.question;
             setupQuestionOptions(currentQuestion);
-            
+
             quizContainer.classList.remove("fade-out");
             quizContainer.classList.add("fade-in");
             setTimeout(() => quizContainer.classList.remove("fade-in"), 500);
@@ -208,15 +195,13 @@ const questions = [
     }
 
     function resetQuestionUI() {
-        const optionsList = document.getElementById("options");
-        optionsList.innerHTML = "";
-        
+        document.getElementById("options").innerHTML = "";
         const textInput = document.getElementById("text-answer");
         textInput.classList.remove("correct", "incorrect");
         textInput.style.display = "none";
         textInput.value = "";
         textInput.removeAttribute("readonly");
-        
+
         document.getElementById("correct-answer").style.display = "none";
         document.getElementById("check-btn").style.display = "inline-block";
         document.getElementById("next-btn").disabled = true;
@@ -224,12 +209,11 @@ const questions = [
 
     function setupQuestionOptions(question) {
         if (question.type === "multiple") {
-            const optionsList = document.getElementById("options");
             question.options.forEach(option => {
                 const li = document.createElement("li");
                 li.textContent = option;
                 li.addEventListener("click", () => selectOption(option, li));
-                optionsList.appendChild(li);
+                document.getElementById("options").appendChild(li);
             });
         } else {
             document.getElementById("text-answer").style.display = "block";
@@ -238,14 +222,14 @@ const questions = [
 
     function selectOption(selectedOption, selectedElement) {
         if (medalPopupActive) return;
-        
+
         const currentQuestion = shuffledQuestions[currentQuestionIndex];
         const correctAnswer = currentQuestion.originalAnswer || currentQuestion.answer;
         const isCorrect = correctAnswer === selectedOption;
-        
+
         document.querySelectorAll("#options li").forEach(li => {
-            const optionIsCorrect = correctAnswer === li.textContent;
-            li.classList.add(optionIsCorrect ? "correct" : "incorrect");
+            const isCorrectOption = correctAnswer === li.textContent;
+            li.classList.add(isCorrectOption ? "correct" : "incorrect");
             li.style.pointerEvents = "none";
         });
 
@@ -254,81 +238,64 @@ const questions = [
 
     function checkAnswer() {
         if (medalPopupActive) return;
-        
+
         const currentQuestion = shuffledQuestions[currentQuestionIndex];
-        
-        if (currentQuestion.type === "text") {
-            const textInput = document.getElementById("text-answer");
-            const userAnswer = textInput.value.trim();
-            
-            if (!userAnswer) {
-                alert("Por favor, digite sua resposta!");
-                return;
-            }
-            
-            const normalizedAnswers = Array.isArray(currentQuestion.answer) 
-                ? currentQuestion.answer.map(ans => normalizeText(ans))
-                : [normalizeText(currentQuestion.answer)];
-                
-            const isCorrect = normalizedAnswers.includes(normalizeText(userAnswer));
-            handleAnswerFeedback(isCorrect, currentQuestion.answer);
-            textInput.setAttribute("readonly", true);
-        
-       // Adiciona classe visual com base na resposta
-        if (isCorrect) {
-            textInput.classList.add("correct");
-            textInput.classList.remove("incorrect");
-        } else {
-            textInput.classList.add("incorrect");
-            textInput.classList.remove("correct");
+        if (currentQuestion.type !== "text") return;
+
+        const textInput = document.getElementById("text-answer");
+        const userAnswer = textInput.value.trim();
+
+        if (!userAnswer) {
+            alert("Por favor, digite sua resposta!");
+            return;
         }
 
-        handleAnswerFeedback(isCorrect, currentQuestion.answer);
+        const normalizedAnswers = Array.isArray(currentQuestion.answer)
+            ? currentQuestion.answer.map(normalizeText)
+            : [normalizeText(currentQuestion.answer)];
+
+        const isCorrect = normalizedAnswers.includes(normalizeText(userAnswer));
+        textInput.classList.add(isCorrect ? "correct" : "incorrect");
+        textInput.classList.remove(isCorrect ? "incorrect" : "correct");
         textInput.setAttribute("readonly", true);
-        }
+
+        handleAnswerFeedback(isCorrect, currentQuestion.answer);
     }
 
     function handleAnswerFeedback(isCorrect, correctAnswer) {
         if (isCorrect) {
             score++;
-            audioManager.playSound('correct');
-            
+            audioManager.playSound("correct");
+
             if (shouldShowMedal()) {
                 showMedal();
             } else {
                 document.getElementById("next-btn").disabled = false;
             }
         } else {
-            audioManager.playSound('incorrect');
+            audioManager.playSound("incorrect");
             showCorrectAnswer(correctAnswer);
             document.getElementById("next-btn").disabled = false;
         }
-        
+
         document.getElementById("check-btn").style.display = "none";
     }
 
     function showCorrectAnswer(answer) {
-        const correctAnswerText = Array.isArray(answer) ? answer[0] : answer;
-        const correctAnswerElement = document.getElementById("correct-answer");
-        correctAnswerElement.textContent = `Resposta correta: ${correctAnswerText}`;
-        correctAnswerElement.style.display = "block";
+        const text = Array.isArray(answer) ? answer[0] : answer;
+        const correctAnswerEl = document.getElementById("correct-answer");
+        correctAnswerEl.textContent = `Resposta correta: ${text}`;
+        correctAnswerEl.style.display = "block";
     }
 
     function nextQuestion() {
         if (medalPopupActive) return;
-        
         currentQuestionIndex++;
         loadQuestion();
     }
 
-    // ============== SISTEMA DE MEDALHAS ==============
     function shouldShowMedal() {
-        const milestones = {
-            'bronze': 10,
-            'silver': 15,
-            'gold': shuffledQuestions.length
-        };
-        
+        const milestones = { bronze: 10, silver: 15, gold: shuffledQuestions.length };
         return Object.values(milestones).includes(score);
     }
 
@@ -336,58 +303,49 @@ const questions = [
         medalPopupActive = true;
         const medalType = getMedalType();
         const medalData = medalhaSystem.getMedalData(medalType);
-        
-        document.querySelector('.medalha-popup-img').src = medalData.img;
-        document.querySelector('.medalha-popup-title').textContent = medalData.title;
-        document.querySelector('.medalha-popup-desc').textContent = medalData.desc;
-        
-        document.getElementById('medalha-popup').classList.add('active');
+
+        document.querySelector(".medalha-popup-img").src = medalData.img;
+        document.querySelector(".medalha-popup-title").textContent = medalData.title;
+        document.querySelector(".medalha-popup-desc").textContent = medalData.desc;
+
+        document.getElementById("medalha-popup").classList.add("active");
         document.getElementById("next-btn").disabled = false;
     }
 
     function closeMedalPopup() {
-        document.getElementById('medalha-popup').classList.remove('active');
+        document.getElementById("medalha-popup").classList.remove("active");
         medalPopupActive = false;
     }
 
     function getMedalType() {
-        if (score === shuffledQuestions.length) return 'gold';
-        if (score >= 15) return 'silver';
-        if (score >= 10) return 'bronze';
-        return '';
+        if (score === shuffledQuestions.length) return "gold";
+        if (score >= 15) return "silver";
+        if (score >= 10) return "bronze";
+        return "";
     }
 
-    // ============== FINALIZAÇÃO ==============
     function finishQuiz() {
         quizCompleted = true;
-        const container = document.querySelector(".container");
-        container.innerHTML = `
+        document.querySelector(".container").innerHTML = `
             <h1>Quiz Concluído!</h1>
             <p>${playerName}, você acertou <strong>${score}</strong> de <strong>${shuffledQuestions.length}</strong> questões.</p>
-            <div class="score-display ${getScoreClass()}">
-                ${calculatePercentage()}% de acertos
-            </div>
+            <div class="score-display ${getScoreClass()}">${calculatePercentage()}% de acertos</div>
             <h2>Top 10 Melhores</h2>
             <ol id="ranking-list"></ol>
-            <button onclick="restartQuiz()">Tentar Novamente</button>
+            <button onclick="location.reload()">Tentar Novamente</button>
         `;
-        
+
         saveScore();
         displayRanking();
         audioManager.sounds.background.pause();
-        
-        if (shouldShowMedal()) {
-            showMedal();
-        } else {
-            fireConfetti();
-        }
+        if (shouldShowMedal()) showMedal();
+        else fireConfetti();
     }
 
-    // ============== FUNÇÕES AUXILIARES ==============
     function toggleMute() {
         const isMuted = audioManager.toggleMute();
-        document.getElementById("mute-btn").innerHTML = isMuted 
-            ? '<i class="fas fa-volume-mute"></i>' 
+        document.getElementById("mute-btn").innerHTML = isMuted
+            ? '<i class="fas fa-volume-mute"></i>'
             : '<i class="fas fa-music"></i>';
     }
 
@@ -401,63 +359,28 @@ const questions = [
     }
 
     function getScoreClass() {
-        const percentage = calculatePercentage();
-        if (percentage >= 80) return "excellent";
-        if (percentage >= 60) return "good";
-        if (percentage >= 40) return "average";
+        const pct = calculatePercentage();
+        if (pct >= 80) return "excellent";
+        if (pct >= 60) return "good";
+        if (pct >= 40) return "average";
         return "poor";
     }
 
     function saveScore() {
         let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
-        ranking.push({ 
-            name: playerName, 
-            score,
-            date: new Date().toLocaleDateString(),
-            total: shuffledQuestions.length
-        });
+        ranking.push({ name: playerName, score, date: new Date().toLocaleDateString(), total: shuffledQuestions.length });
         ranking.sort((a, b) => b.score - a.score);
         localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10)));
     }
 
     function displayRanking() {
         const ranking = JSON.parse(localStorage.getItem("ranking")) || [];
-        const rankingList = document.getElementById("ranking-list");
-        rankingList.innerHTML = "";
-        
-        ranking.forEach((player, index) => {
+        const list = document.getElementById("ranking-list");
+        list.innerHTML = "";
+        ranking.forEach((player, i) => {
             const li = document.createElement("li");
-            li.innerHTML = `
-                <span class="rank">${index + 1}.</span>
-                <span class="name">${player.name}</span>
-                <span class="score">${player.score}/${player.total}</span>
-                <span class="date">${player.date}</span>
-            `;
-            rankingList.appendChild(li);
+            li.innerHTML = `<span class="rank">${i + 1}.</span> <span class="name">${player.name}</span> <span class="score">${player.score}/${player.total}</span>`;
+            list.appendChild(li);
         });
     }
-
-    function showError(message) {
-        const container = document.querySelector(".container");
-        container.innerHTML = `
-            <div class="error-message">
-                <i class="fas fa-exclamation-triangle"></i>
-                <h2>Erro no Quiz</h2>
-                <p>${message}</p>
-                <button onclick="window.location.href='/site-educacional/index.html'">Voltar</button>
-            </div>
-        `;
-        console.error(message);
-    }
 });
-
-// Funções globais
-window.restartQuiz = function() {
-    window.location.reload();
-};
-
-window.toggleDarkMode = function() {
-    document.body.classList.toggle("dark-mode");
-    const isDarkMode = document.body.classList.contains("dark-mode");
-    localStorage.setItem("darkMode", isDarkMode);
-};
