@@ -1,6 +1,8 @@
+import { db, collection, addDoc, getDocs, query, orderBy, limit } from './firebase-config.js';
 import MedalhaSystem from './sistema-medalhas.js';
 import AudioManager from './audio-manager.js';
 import { shuffleQuestions, normalizeText, fireConfetti, shuffleQuestionOptions } from './utils.js';
+
 
 document.addEventListener("DOMContentLoaded", function () {
     const medalhaSystem = new MedalhaSystem();
@@ -135,7 +137,8 @@ const questions = [
         options: ["Visualizar como o documento será impresso", "Editar apenas o texto", "Ativar a escrita manual", "Converter o documento para PDF"],
         answer: "Visualizar como o documento será impresso"
     }
-];
+];	
+
     let shuffledQuestions = [];
     let currentQuestionIndex = 0;
     let score = 0;
@@ -246,9 +249,22 @@ const questions = [
         const textInput = document.getElementById("text-answer");
         const userAnswer = textInput.value.trim();
 
+        // Verifica resposta vazia
         if (!userAnswer) {
-            alert("Por favor, digite sua resposta!");
+            showEmptyAnswerPopup();
             return;
+        }
+
+        // Função para exibir o pop-up
+        function showEmptyAnswerPopup() {
+            const popup = document.getElementById("empty-answer-popup");
+            popup.style.display = "flex";
+
+            const closeBtn = document.getElementById("close-empty-popup");
+            closeBtn.onclick = () => {
+                popup.style.display = "none";
+                document.getElementById("text-answer").focus();
+            };
         }
 
         const normalizedAnswers = Array.isArray(currentQuestion.answer)
@@ -367,21 +383,49 @@ const questions = [
         return "poor";
     }
 
-    function saveScore() {
-        let ranking = JSON.parse(localStorage.getItem("ranking")) || [];
-        ranking.push({ name: playerName, score, date: new Date().toLocaleDateString(), total: shuffledQuestions.length });
-        ranking.sort((a, b) => b.score - a.score);
-        localStorage.setItem("ranking", JSON.stringify(ranking.slice(0, 10)));
+  async function saveScore() {
+    try {
+        await addDoc(collection(db, "ranking-pontuacao"), {
+            name: playerName,
+            score: score,
+            total: shuffledQuestions.length,
+            date: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error("Erro ao salvar pontuação no Firestore:", error);
+    }
+}
+    async function saveScore() {
+    try {
+        await addDoc(collection(db, "ranking-pontuacao"), {
+            name: playerName,
+            score: score,
+            total: shuffledQuestions.length,
+            date: new Date().toISOString()
+        });
+    } catch (error) {
+        console.error("Erro ao salvar pontuação no Firestore:", error);
+    }
     }
 
-    function displayRanking() {
-        const ranking = JSON.parse(localStorage.getItem("ranking")) || [];
-        const list = document.getElementById("ranking-list");
-        list.innerHTML = "";
-        ranking.forEach((player, i) => {
+    async function displayRanking() {
+    const list = document.getElementById("ranking-list");
+    list.innerHTML = "";
+
+    try {
+        const q = query(collection(db, "ranking-pontuacao"), orderBy("score", "desc"), limit(10));
+        const querySnapshot = await getDocs(q);
+        
+        let rank = 1;
+        querySnapshot.forEach((doc) => {
+            const data = doc.data();
             const li = document.createElement("li");
-            li.innerHTML = `<span class="rank">${i + 1}.</span> <span class="name">${player.name}</span> <span class="score">${player.score}/${player.total}</span>`;
+            li.innerHTML = `<span class="rank">${rank++}.</span> <span class="name">${data.name}</span> <span class="score">${data.score}/${data.total}</span>`;
             list.appendChild(li);
         });
+    } catch (error) {
+        console.error("Erro ao carregar ranking do Firestore:", error);
     }
+    }
+
 });

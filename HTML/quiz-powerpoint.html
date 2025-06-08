@@ -47,13 +47,22 @@
             <div id="quiz-container">
                 <p id="question"></p>
                 <ul id="options"></ul>
-                <input type="text" id="text-answer" placeholder="Digite sua resposta..." style="display: none;">
+                <input type="text" id="text-answer" placeholder="Digite sua resposta..." autocomplete="off" style="display: none;">
                 <p id="correct-answer" style="display: none; color: #e74c3c;"></p>
                 <button id="check-btn">Verificar</button>
                 <button id="next-btn" disabled>Próxima pergunta</button>
             </div>
             <p id="result"></p>
         </div>
+    </div>
+
+     <!-- Modal de aviso para resposta vazia -->
+    <div id="empty-answer-popup" class="popup-overlay">
+    <div class="popup-content">
+        <h2>Atenção!</h2>
+        <p>Por favor, insira sua resposta antes de continuar.</p>
+        <button id="close-empty-popup">Fechar</button>
+    </div>
     </div>
 
     <!-- Sons de feedback -->

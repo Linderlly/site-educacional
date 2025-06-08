@@ -171,6 +171,19 @@ button:hover {
     background: var(--hover-secondary);
 }
 
+.rank-1 {
+  color: gold;
+  font-weight: bold;
+}
+.rank-2 {
+  color: silver;
+  font-weight: bold;
+}
+.rank-3 {
+  color: #cd7f32;
+  font-weight: bold;
+}
+
 /* POPUPS */
 .popup {
     display: none;
