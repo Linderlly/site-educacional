@@ -90,7 +90,8 @@ function redirectToQuiz(quizType) {
     const quizMap = {
         "excel": "./HTML/quiz-excel.html",
         "word": "./HTML/quiz-word.html",
-        "powerpoint": "./HTML/quiz-powerpoint.html"
+        "powerpoint": "./HTML/quiz-powerpoint.html",
+        "logicaprogramacao": "./HTML/logicaprogramacao.html"
     };
     window.location.href = quizMap[quizType] || "#";
 }

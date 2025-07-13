@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quiz de Excel</title>
+    <link rel="icon" href="../img/icon-programming.png" type="image/x-icon">
+    <link rel="stylesheet" href="/site-educacional/CSS/style-logica.css">
+    <!-- Adicione o Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    
+ <!-- Medalhas -->
+    <div id="medalha-popup" class="medalha-popup">
+        <div class="medalha-popup-content">
+            <span class="close-medalha-popup">&times;</span>
+            <img class="medalha-popup-img" src="" alt="https://icons8.com.br/icons">
+            <h3 class="medalha-popup-title"></h3>
+            <p class="medalha-popup-desc"></p>
+            <button class="medalha-popup-btn">Continuar</button>
+        </div>
+    </div>
+
+    <div class="container">
+        <!-- Botão "Voltar ao Início" -->
+        <button id="back-to-home-btn" class="home-btn">
+            <img src="/site-educacional/img/home.png" alt="https://icons8.com.br/icons">
+        </button>
+
+        <!-- Botão de mudo -->
+        <button id="mute-btn" class="mute-btn">
+            <i class="fas fa-music"></i> <!-- Ícone de nota musical -->
+        </button>
+
+        <div class="container">
+            <button id="toggle-dark-mode" aria-label="Alternar modo escuro">
+                <img src="/site-educacional/img/dark-mode.png" alt="https://icons8.com.br/icons">
+            </button>
+            <h1 id="player-name"></h1>
+            
+            <div id="progress-circle">
+                <span id="current-question">1</span>/<span id="total-questions">10</span>
+            </div>
+        
+            <div id="quiz-container">
+                <p id="question"></p>
+                <ul id="options"></ul>
+                <input type="text" id="text-answer" placeholder="Digite sua resposta..." autocomplete="off" style="display: none;">
+                <p id="correct-answer" style="display: none; color: #e74c3c;"></p>
+                <button id="check-btn">Verificar</button>
+                <button id="next-btn" disabled>Próxima pergunta</button>
+            </div>
+            <p id="result"></p>
+        </div>
+    </div>
+
+    <!-- Modal de aviso para resposta vazia -->
+    <div id="empty-answer-popup" class="popup-overlay">
+    <div class="popup-content">
+        <h2>Atenção!</h2>
+        <p>Por favor, insira sua resposta antes de continuar.</p>
+        <button id="close-empty-popup">Fechar</button>
+    </div>
+    </div>
+
+
+
+    <!-- Sons de feedback -->
+<audio id="correct-sound" src="/site-educacional/sounds/correct.mp3"></audio>
+<audio id="incorrect-sound" src="/site-educacional/sounds/incorrect.mp3"></audio>
+
+<!-- Som de fundo -->
+<audio id="background-music" loop>
+    <source src="/site-educacional/sounds/sound-background.mp3" type="audio/mpeg">
+    Seu navegador não suporta o elemento de áudio.
+</audio>
+
+<!-- Som de celebração ao finalizar -->
+<audio id="celebration-sound">
+    <source src="/site-educacional/sounds/celebration.mp3" type="audio/mpeg">
+    Seu navegador não suporta o elemento de áudio.
+</audio>
+
+    <!-- Adicione a biblioteca Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <!-- Seu script principal -->
+    <script type="module" src="/site-educacional/JavaScript/script-logica.js"></script>
+    <script>
+        // Inicia o som de fundo ao carregar a página
+        document.addEventListener("DOMContentLoaded", function () {
+            const backgroundMusic = document.getElementById("background-music");
+            backgroundMusic.play();
+        });
+
+        // Botão "Voltar ao Início"
+        document.getElementById("back-to-home-btn").addEventListener("click", function () {
+            window.location.href = "/site-educacional/index.html"; // Redireciona para a página inicial
+        });
+
+        // Modo escuro
+        const isDarkMode = localStorage.getItem("darkMode") === "true";
+        if (isDarkMode) {
+            document.body.classList.add("dark-mode");
+        }
+
+        document.getElementById("toggle-dark-mode").addEventListener("click", function() {
+            document.body.classList.toggle("dark-mode");
+            const isDarkMode = document.body.classList.contains("dark-mode");
+            localStorage.setItem("darkMode", isDarkMode);
+        });
+        
+    </script>
+
+
+</body>
+</html>
