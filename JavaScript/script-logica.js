@@ -23,119 +23,158 @@ document.addEventListener("DOMContentLoaded", function () {
     document.getElementById("player-name").textContent = `Jogador: ${playerName}`;
 
   // ============== PERGUNTAS DO QUIZ ==============
-   const questions = [
+const questions = [
     { 
         type: "multiple", 
         question: "O que é uma variável em programação?", 
-        options: ["Um valor fixo", "Um contêiner para armazenar dados", "Um tipo de loop", "Uma função"], 
-        answer: "Um contêiner para armazenar dados" 
+        options: [
+            "Um número fixo", 
+            "Um nome que guarda um valor", 
+            "Um comando para repetir ações", 
+            "Um erro no código"
+        ], 
+        answer: "Um nome que guarda um valor" 
     },
     { 
         type: "multiple", 
-        question: "Qual estrutura é usada para repetir um bloco de código várias vezes?", 
-        options: ["Condicional IF", "Função", "Loop FOR", "Operador lógico"], 
-        answer: "Loop FOR" 
+        question: "Qual comando usamos para mostrar mensagens na tela em Python?", 
+        options: ["if", "print()", "for", "variable"], 
+        answer: "print()" 
     },
     { 
         type: "text", 
-        question: "Qual operador lógico representa 'E' em muitas linguagens de programação?", 
-        answer: ["&&", "and", "AND"] 
+        question: "Qual símbolo é usado para atribuir um valor a uma variável? (Ex.: x ___ 5)",
+        answer: ["=", " = "] 
     },
     { 
         type: "multiple", 
-        question: "O que é um algoritmo?", 
-        options: ["Uma linguagem de programação", "Um conjunto de instruções para resolver um problema", "Um tipo de hardware", "Um erro de sintaxe"], 
-        answer: "Um conjunto de instruções para resolver um problema" 
-    },
-    { 
-        type: "multiple", 
-        question: "Qual estrutura de controle é usada para tomar decisões?", 
-        options: ["FOR", "WHILE", "IF-ELSE", "FUNCTION"], 
-        answer: "IF-ELSE" 
+        question: "O que faz o comando 'if'?", 
+        options: [
+            "Repete um código várias vezes", 
+            "Decide se um bloco de código será executado", 
+            "Soma dois números", 
+            "Cria uma variável"
+        ], 
+        answer: "Decide se um bloco de código será executado" 
     },
     { 
         type: "text", 
-        question: "Qual palavra-chave é usada para retornar um valor de uma função?", 
-        answer: ["return", "Return", "RETURN"] 
+        question: "Complete: O comando ___ é usado para repetir algo enquanto uma condição for verdadeira.",
+        answer: ["while", "While", "WHILE"] 
     },
     { 
         type: "multiple", 
-        question: "O que é um array?", 
-        options: ["Um tipo de variável", "Uma estrutura de dados que armazena múltiplos valores", "Um operador matemático", "Um tipo de loop"], 
-        answer: "Uma estrutura de dados que armazena múltiplos valores" 
+        question: "O que é um 'loop'?", 
+        options: [
+            "Um tipo de variável", 
+            "Um erro comum", 
+            "Uma repetição de código até uma condição ser atendida", 
+            "Um operador matemático"
+        ], 
+        answer: "Uma repetição de código até uma condição ser atendida" 
+    },
+    { 
+        type: "multiple", 
+        question: "Qual destes é um exemplo de número inteiro?", 
+        options: ["3.14", "'5'", "10", "verdadeiro"], 
+        answer: "10" 
     },
     { 
         type: "text", 
-        question: "Como se chama o processo de encontrar e corrigir erros no código?", 
+        question: "Qual palavra-chave encerra um loop antes do tempo? (Ex.: sair do 'while' antes da condição)",
+        answer: ["break", "Break", "BREAK"] 
+    },
+    { 
+        type: "multiple", 
+        question: "O que é uma 'string'?", 
+        options: [
+            "Um tipo de número", 
+            "Um texto", 
+            "Um comando de repetição", 
+            "Um operador lógico"
+        ], 
+        answer: "Um texto" 
+    },
+    { 
+        type: "text", 
+        question: "Como se chama o valor que representa 'verdadeiro' ou 'falso' em programação?",
+        answer: ["booleano", "Booleano", "BOOLEANO", "boolean", "Boolean", "BOOLEAN"] 
+    },
+    { 
+        type: "multiple", 
+        question: "Qual operador compara se dois valores são iguais? (Ex.: 5 ___ 5)",
+        options: ["=", "==", "!", ">"], 
+        answer: "==" 
+    },
+    { 
+        type: "text", 
+        question: "Qual comando usamos para somar 1 a uma variável? (Ex.: x ___ 1)",
+        answer: ["++", " += 1", "=+1", "+="] 
+    },
+    { 
+        type: "multiple", 
+        question: "O que é um 'array' ou 'lista'?", 
+        options: [
+            "Uma variável que guarda múltiplos valores em ordem", 
+            "Um tipo de loop", 
+            "Um operador matemático", 
+            "Um comando condicional"
+        ], 
+        answer: "Uma variável que guarda múltiplos valores em ordem" 
+    },
+    { 
+        type: "text", 
+        question: "Como se chama o processo de encontrar e corrigir erros no código?",
         answer: ["debugging", "Debugging", "DEBUGGING"] 
     },
     { 
         type: "multiple", 
-        question: "O que significa OOP?", 
-        options: ["Operador Ou Programação", "Orientação a Objetos em Programação", "Ordem de Operações Padrão", "Organização de Operadores Primários"], 
-        answer: "Orientação a Objetos em Programação" 
+        question: "Qual destes NÃO é um tipo de dado básico?", 
+        options: ["Inteiro", "String", "Boolean", "Vetor"], 
+        answer: "Vetor" 
     },
     { 
         type: "multiple", 
-        question: "Qual desses NÃO é um tipo de dado primário?", 
-        options: ["Inteiro", "String", "Boolean", "Objeto"], 
-        answer: "Objeto" 
+        question: "O que faz o operador '%' (módulo)?", 
+        options: [
+            "Divide dois números", 
+            "Retorna o resto de uma divisão", 
+            "Multiplica valores", 
+            "Compara strings"
+        ], 
+        answer: "Retorna o resto de uma divisão" 
     },
     { 
         type: "text", 
-        question: "Qual operador é usado para verificar igualdade de valor E tipo em JavaScript?", 
-        answer: ["===", "== ="] 
+        question: "Qual estrutura repete um bloco de código um número específico de vezes?",
+        answer: ["for", "For", "FOR"] 
     },
     { 
-        type: "multiple", 
-        question: "O que é recursão?", 
-        options: ["Um tipo de loop", "Quando uma função chama a si mesma", "Um erro de sintaxe", "Um operador matemático"], 
-        answer: "Quando uma função chama a si mesma" 
-    },
-    { 
-        type: "multiple", 
-        question: "O que é um pseudocódigo?", 
-        options: ["Uma linguagem de programação específica", "Uma descrição informal de um algoritmo", "Um código com erros", "Um tipo de comentário"], 
-        answer: "Uma descrição informal de um algoritmo" 
-    },
-    { 
-        type: "text", 
-        question: "Qual estrutura de repetição executa pelo menos uma vez antes de verificar a condição?", 
-        answer: ["do-while", "Do-While", "DO-WHILE"] 
-    },
-    { 
-        type: "multiple", 
-        question: "O que é um operador ternário?", 
-        options: ["Um operador que usa três operandos", "Um operador para strings", "Um operador matemático complexo", "Um tipo especial de loop"], 
-        answer: "Um operador que usa três operandos" 
+        type: "multiple",
+        question: "O que é um 'algoritmo'?", 
+        options: [
+            "Uma linguagem de programação", 
+            "Um passo a passo para resolver um problema", 
+            "Um tipo de hardware", 
+            "Um erro de sintaxe"
+        ], 
+        answer: "Um passo a passo para resolver um problema" 
     },
     { 
         type: "text", 
-        question: "Como se chama o valor que indica o fim de uma estrutura de dados linear?", 
-        answer: ["sentinel", "Sentinel", "SENTINEL"] 
+        question: "Qual símbolo representa 'diferente' em programação?",
+        answer: ["!=", "<>", "=/="] 
     },
     { 
         type: "multiple", 
-        question: "O que é um ponteiro?", 
-        options: ["Um tipo de dado", "Uma variável que armazena um endereço de memória", "Um operador lógico", "Uma estrutura de repetição"], 
-        answer: "Uma variável que armazena um endereço de memória" 
-    },
-    { 
-        type: "multiple", 
-        question: "Qual desses é um paradigma de programação?", 
-        options: ["Python", "Funcional", "Java", "C++"], 
-        answer: "Funcional" 
-    },
-    { 
-        type: "text", 
-        question: "Qual termo descreve quando duas variáveis apontam para o mesmo objeto na memória?", 
-        answer: ["aliasing", "Aliasing", "ALIASING"] 
-    },
-    { 
-        type: "multiple", 
-        question: "O que é complexidade de tempo?", 
-        options: ["Quanto tempo leva para escrever um programa", "Como o tempo de execução cresce em relação ao tamanho da entrada", "O horário que o programa é executado", "A duração de um loop"], 
-        answer: "Como o tempo de execução cresce em relação ao tamanho da entrada" 
+        question: "O que é um 'comentário' no código?", 
+        options: [
+            "Um texto ignorado pelo computador", 
+            "Um comando de repetição", 
+            "Um tipo de variável", 
+            "Um operador lógico"
+        ], 
+        answer: "Um texto ignorado pelo computador" 
     }
 ];
 

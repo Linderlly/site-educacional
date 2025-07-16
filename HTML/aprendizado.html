@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Área de Aprendizado</title>
+    <link rel="icon" href="/site-educacional/img/livros.png" type="image/x-icon">
+    <link rel="stylesheet" href="../CSS/style-aprendizado.css">
+</head>
+<body>
+    <header>
+        <h1>📘 Área de Aprendizado</h1>
+        <a href="../index.html" class="back-btn">
+            <img src="/site-educacional/img/home.png" alt="">
+        </a>
+    </header>
+
+    <main>
+  <section class="modulo">
+    <button class="toggle-btn">Excel</button>
+    <div class="conteudo-expansivel">
+      <h2>Função PROCV no Excel</h2>
+      <button class="video-btn" data-video="/site-educacional/videos/procv.mp4">▶ Veja na prática</button>
+
+      <div class="explicacao">
+        <p><strong>O que é?</strong> A função <strong>PROCV</strong> (Procura Vertical) busca um valor na primeira coluna de uma tabela e retorna um valor correspondente de outra coluna na mesma linha.</p>
+
+        <p><strong>Como funciona?</strong></p>
+        <ul class="lista-explicacao">
+          <li><strong>valor_procurado:</strong> Valor a ser buscado na primeira coluna.</li>
+          <li><strong>matriz_tabela:</strong> Intervalo onde a função irá procurar o valor.</li>
+          <li><strong>núm_índice_coluna:</strong> Número da coluna da qual o valor será retornado.</li>
+          <li><strong>procurar_intervalo:</strong> <code>FALSO</code> para correspondência exata, <code>VERDADEIRO</code> para aproximada.</li>
+        </ul>
+
+        <p><strong>Exemplo:</strong></p>
+        <p><code>=PROCV("João", A2:B10, 2, FALSO)</code></p>
+
+      </div>
+      
+      <h2>Mais em breve...</h2>
+      
+    </div>
+  </section>
+
+  <section class="modulo">
+    <button class="toggle-btn">Word</button>
+    <div class="conteudo-expansivel">
+      <h2>Em breve...</h2>
+      <!--<button class="video-btn" data-video="https://www.youtube.com/embed/SEU_VIDEO_ID">▶ Veja na prática</button>
+      <p></p>-->
+    </div>
+  </section>
+
+  <section class="modulo">
+    <button class="toggle-btn">PowerPoint</button>
+    <div class="conteudo-expansivel">
+      <h2>Em Breve...</h2>
+      <!--<p>Transições são efeitos visuais usados ao passar de um slide para outro. Para adicionar, vá em <strong>Transições</strong> e escolha um efeito.</p>
+    --></div>
+  </section>
+
+  <section class="modulo">
+    <button class="toggle-btn">Lógica de Programação</button>
+    <div class="conteudo-expansivel">
+      <h2>Em Breve...</h2>
+      <!--<p>Transições são efeitos visuais usados ao passar de um slide para outro. Para adicionar, vá em <strong>Transições</strong> e escolha um efeito.</p>
+    --></div>
+  </section>
+
+  <!-- Modal de vídeo -->
+  <div class="video-modal" id="videoModal">
+    <div class="modal-content">
+      <span class="close-btn" onclick="fecharModal()">&times;</span>
+      <div class="video-container" id="videoContainer"></div>
+    </div>
+  </div>
+</main>
+
+    <script src="/site-educacional/JavaScript/script-aprendizado.js"></script>
+</body>
+</html>

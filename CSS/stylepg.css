@@ -1,28 +1,17 @@
-/* PALETA DE CORES PRINCIPAIS */
 :root {
-    /* Cores base */
-    --primary: #5D4037;          /* Marrom escuro principal */
-    --secondary: rgba(93, 64, 55, 0.7);  /* Marrom com transparência */
-    --hover-secondary: rgba(78, 52, 46, 0.7); /* Marrom mais escuro */
-    
-    /* Cores de feedback */
-    --correct: #4CAF50;          /* Verde para respostas corretas */
-    --incorrect: #F44336;        /* Vermelho para respostas incorretas */
-    
-    /* Cores de texto */
-    --text-dark: #212121;        /* Preto para texto */
-    --text-light: #FAFAFA;       /* Branco suave para texto */
-    
-    /* Cores de fundo */
-    --background-light: #EEEEEE; /* Cinza claro para fundo */
-    --background-dark: #212121;  /* Preto para fundo escuro */
-    
-    /* Cores de containers */
-    --container-light: #FFFFFF;  /* Branco para container */
-    --container-dark: #424242;   /* Cinza escuro para container */
+    --primary: #5D4037;
+    --secondary: rgba(93, 64, 55, 0.7);
+    --hover-secondary: rgba(78, 52, 46, 0.7);
+    --correct: #4CAF50;
+    --incorrect: #F44336;
+    --text-dark: #212121;
+    --text-light: #FAFAFA;
+    --background-light: #EEEEEE;
+    --background-dark: #212121;
+    --container-light: #FFFFFF;
+    --container-dark: #424242;
 }
 
-/* ESTILOS GERAIS */
 body {
     font-family: Arial, sans-serif;
     background: var(--background-light);
@@ -34,15 +23,14 @@ body {
     height: 100vh;
     text-align: center;
     transition: background 0.5s ease, color 0.5s ease;
+    margin: 0;
 }
 
-/* MODO ESCURO */
 .dark-mode {
     background: var(--background-dark);
     color: var(--text-light);
 }
 
-/* CONTAINER PRINCIPAL */
 .container {
     background: var(--container-light);
     padding: 20px;
@@ -59,7 +47,6 @@ body {
     color: var(--text-light);
 }
 
-/* ELEMENTOS DE FORMULÁRIO */
 input {
     width: 90%;
     padding: 10px;
@@ -75,7 +62,6 @@ input:focus {
     outline: none;
 }
 
-/* BOTÕES PRINCIPAIS */
 button {
     font-family: Arial, Helvetica, sans-serif;
     width: 190px;
@@ -92,70 +78,6 @@ button:hover {
     background: var(--hover-secondary);
 }
 
-/* BOTÕES DE CONTROLE SUPERIORES */
-/* Botão de informações (exclamação) - Canto superior esquerdo */
-.info-btn {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background: var(--primary);
-    color: var(--text-light);
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s ease;
-    z-index: 1000;
-}
-
-#exclamation {
-    position: fixed;
-    top: 20px;
-    left: 80px; /* 60px de distância do botão de informações */
-    background: var(--primary);
-    color: var(--text-light);
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s ease;
-    z-index: 1000;
-}
-
-/* Botão de modo escuro - Ao lado do botão de informações */
-#toggle-dark-mode {
-    position: fixed;
-    top: 20px;
-    left: 80px; /* 60px de distância do botão de informações */
-    background: var(--primary);
-    color: var(--text-light);
-    border: none;
-    border-radius: 50%;
-    width: 50px;
-    height: 50px;
-    font-size: 24px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    transition: background 0.3s ease;
-    z-index: 1000;
-}
-
-/* Botão de ranking */
 #view-ranking-btn {
     padding: 10px 20px;
     font-size: 12px;
@@ -172,19 +94,18 @@ button:hover {
 }
 
 .rank-1 {
-  color: gold;
-  font-weight: bold;
+    color: gold;
+    font-weight: bold;
 }
 .rank-2 {
-  color: silver;
-  font-weight: bold;
+    color: silver;
+    font-weight: bold;
 }
 .rank-3 {
-  color: #cd7f32;
-  font-weight: bold;
+    color: #cd7f32;
+    font-weight: bold;
 }
 
-/* POPUPS */
 .popup {
     display: none;
     position: fixed;
@@ -224,7 +145,6 @@ button:hover {
     opacity: 1;
 }
 
-/* Botões de fechar popup */
 #close-popup,
 #close-info-popup,
 #close-quiz-options-popup {
@@ -243,7 +163,6 @@ button:hover {
     color: #E53935;
 }
 
-/* LISTA DE RANKING */
 #ranking-list {
     list-style-type: none;
     padding: 0;
@@ -257,7 +176,6 @@ button:hover {
     font-weight: bold;
 }
 
-/* AJUSTES PARA MODO ESCURO */
 .dark-mode .popup-content {
     background: var(--container-dark);
     color: var(--text-light);
@@ -267,7 +185,6 @@ button:hover {
     background: rgba(189, 189, 189, 0.1);
 }
 
-/* LINKS DE REDES SOCIAIS */
 .social-links {
     list-style: none;
     padding: 0;
@@ -304,7 +221,6 @@ button:hover {
     color: var(--text-light);
 }
 
-/* OPÇÕES DE QUIZ */
 .quiz-options {
     list-style: none;
     padding: 0;
@@ -336,4 +252,222 @@ button:hover {
 
 .dark-mode .quiz-options button:hover {
     background: #757575;
+}
+
+#main-menu {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #2c3e50;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.5);
+    padding-top: 60px;
+    transition: left 0.3s ease-in-out;
+    z-index: 999;
+}
+
+#main-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+#main-menu ul li {
+    margin: 20px;
+}
+
+#main-menu ul li button {
+    width: 100%;
+    padding: 10px;
+    font-size: 16px;
+    background-color: transparent;
+    border: none;
+    color: #ecf0f1;
+    text-align: left;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+#main-menu ul li button:hover {
+    background-color: #34495e;
+}
+
+#main-menu.active {
+    left: 0;
+}
+
+#menu-toggle {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+    background-color: #2c3e50;
+    color: #ecf0f1;
+    border: none;
+    padding: 10px 12px;
+    border-radius: 4px;
+    z-index: 1000;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+#menu-toggle:hover {
+    background-color: #34495e;
+}
+
+body.menu-open {
+    margin-left: 250px;
+    transition: margin-left 0.3s ease-in-out;
+}
+
+@media (max-width: 600px) {
+    body.menu-open {
+        margin-left: 0;
+    }
+
+    #main-menu {
+        width: 200px;
+    }
+
+    #main-menu.active {
+        left: 0;
+    }
+}
+
+#main-menu::-webkit-scrollbar {
+    width: 6px;
+}
+
+#main-menu::-webkit-scrollbar-track {
+    background: #34495e;
+}
+
+#main-menu::-webkit-scrollbar-thumb {
+    background: #2c3e50;
+    border-radius: 3px;
+}
+
+#main-menu,
+body.menu-open {
+    transition: all 0.3s ease;
+}
+
+button:focus,
+#menu-toggle:focus,
+.info-btn:focus,
+#toggle-dark-mode:focus,
+#view-ranking-btn:focus {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+.info-btn[title],
+#toggle-dark-mode[title],
+#view-ranking-btn[title],
+#menu-toggle[title] {
+    position: relative;
+}
+
+.info-btn[title]:hover::after,
+#toggle-dark-mode[title]:hover::after,
+#view-ranking-btn[title]:hover::after,
+#menu-toggle[title]:hover::after {
+    content: attr(title);
+    position: absolute;
+    bottom: 125%;
+    left: 50%;
+    transform: translateX(-50%);
+    background-color: var(--primary);
+    color: var(--text-light);
+    padding: 5px 8px;
+    border-radius: 4px;
+    white-space: nowrap;
+    font-size: 12px;
+    z-index: 1100;
+    opacity: 0.9;
+    pointer-events: none;
+}
+
+.popup {
+    pointer-events: none;
+}
+
+.popup.active {
+    pointer-events: auto;
+}
+
+.popup-content {
+    will-change: transform, opacity;
+}
+
+.dark-mode #close-popup,
+.dark-mode #close-info-popup,
+.dark-mode #close-quiz-options-popup {
+    color: var(--text-light);
+}
+
+.dark-mode #close-popup:hover,
+.dark-mode #close-info-popup:hover,
+.dark-mode #close-quiz-options-popup:hover {
+    color: #ff6f61;
+}
+
+/* Novos estilos para os botões fixos */
+#main-menu:not(.active) ~ #info-btn,
+#main-menu:not(.active) ~ #toggle-dark-mode {
+    display: none;
+}
+
+#info-btn, #toggle-dark-mode {
+    position: fixed;
+    top: 20px;
+    z-index: 1000;
+    transition: left 0.3s ease-in-out;
+    background: var(--primary);
+    color: var(--text-light);
+    border: none;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+#info-btn {
+    left: 80px;
+}
+
+#toggle-dark-mode {
+    left: 140px;
+}
+
+#main-menu.active ~ #info-btn {
+    left: 270px;
+}
+
+#main-menu.active ~ #toggle-dark-mode {
+    left: 330px;
+}
+
+@media (max-width: 768px) {
+    #info-btn {
+        left: 70px;
+    }
+    #toggle-dark-mode {
+        left: 130px;
+    }
+    #main-menu.active ~ #info-btn {
+        left: 200px;
+    }
+    #main-menu.active ~ #toggle-dark-mode {
+        left: 260px;
+    }
+}
+
+.info-btn img, #toggle-dark-mode img {
+    width: 24px;
+    height: 24px;
 }

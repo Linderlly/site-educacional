@@ -1,102 +1,88 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-    <!-- Configurações básicas do documento -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quiz - Início</title>
-    
-    <!-- Favicon e estilos -->
     <link rel="icon" href="./img/quiz-icon.png" type="image/x-icon">
     <link rel="stylesheet" href="./CSS/stylepg.css">
-
-    <!-- Font Awesome para ícones -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 </head>
+
 <body>
-    <div class="container">
-        <!-- Botão de informações (ícone de exclamação) -->
-        <button id="info-btn" class="info-btn">
-            <img src="/site-educacional/img/exclamation.png" alt="https://icons8.com.br/icons">
-        </button>
+    <button id="menu-toggle">☰</button>
 
-        <!-- Botão de alternar modo escuro -->
-        <button id="toggle-dark-mode" aria-label="Alternar modo escuro">
-            <img src="/site-educacional/img/dark-mode-home.png" alt="https://icons8.com.br/icons">
-        </button>
+    <nav id="main-menu">
+        <ul>
+            <li><button onclick="window.location.href='./HTML/aprendizado.html'">📚 Área de Aprendizado</button></li>
+        </ul>
+    </nav>
 
-        <!-- Popup de informações (redes sociais) -->
-        <div id="info-popup" class="popup">
-            <div class="popup-content">
-                <span id="close-info-popup">&times;</span> <!-- Botão de fechar (X) -->
-                <h2>Minhas Redes Sociais</h2>
-                <ul class="social-links">
-                    <li>
-                        <a href="https://www.instagram.com/lindersantanaa" target="_blank">
-                            <i class="fab fa-instagram"></i> Instagram
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://www.linkedin.com/in/linderlly-santana" target="_blank">
-                            <i class="fab fa-linkedin"></i> LinkedIn
-                        </a>
-                    </li>
-                    <li>
-                        <a href="https://github.com/Linderlly" target="_blank">
-                            <i class="fab fa-github"></i> GitHub
-                        </a>
-                    </li>
-                </ul>
-            </div>
+    <button id="info-btn" class="info-btn">
+        <img src="/site-educacional/img/exclamation.png" alt="Informações">
+    </button>
+
+    <button id="toggle-dark-mode" aria-label="Alternar modo escuro">
+        <img src="/site-educacional/img/dark-mode-home.png" alt="Modo escuro">
+    </button>
+
+    <div id="info-popup" class="popup">
+        <div class="popup-content">
+            <span id="close-info-popup">&times;</span>
+            <h2>Minhas Redes Sociais</h2>
+            <ul class="social-links">
+                <li>
+                    <a href="https://www.instagram.com/lindersantanaa" target="_blank">
+                        <i class="fab fa-instagram"></i> Instagram
+                    </a>
+                </li>
+                <li>
+                    <a href="https://www.linkedin.com/in/linderlly-santana" target="_blank">
+                        <i class="fab fa-linkedin"></i> LinkedIn
+                    </a>
+                </li>
+                <li>
+                    <a href="https://github.com/Linderlly" target="_blank">
+                        <i class="fab fa-github"></i> GitHub
+                    </a>
+                </li>
+            </ul>
         </div>
+    </div>
 
-        <!-- Popup de escolha de quiz (Excel, Word, PowerPoint) -->
+    <div class="container">
         <div id="quiz-options-popup" class="popup">
             <div class="popup-content">
                 <span id="close-quiz-options-popup">&times;</span>
                 <h2>Escolha um Quiz</h2>
                 <ul class="quiz-options">
-                    <li>
-                        <button onclick="redirectToQuiz('excel')">Quiz de Excel</button>
-                    </li>
-                    <li>
-                        <button onclick="redirectToQuiz('word')">Quiz de Word</button>
-                    </li>
-                    <li>
-                        <button onclick="redirectToQuiz('powerpoint')">Quiz de PowerPoint</button>
-                    </li>
-                    <li>
-                        <button onclick="redirectToQuiz('logicaprogramacao')">Quiz de Lógica de Programação</button>
-                    </li>
+                    <li><button onclick="redirectToQuiz('excel')">Quiz de Excel</button></li>
+                    <li><button onclick="redirectToQuiz('word')">Quiz de Word</button></li>
+                    <li><button onclick="redirectToQuiz('powerpoint')">Quiz de PowerPoint</button></li>
+                    <li><button onclick="redirectToQuiz('logicaprogramacao')">Quiz de Lógica de Programação</button></li>
                 </ul>
             </div>
         </div>
 
-        <!-- Conteúdo principal da página -->
         <h1>Bem-vindo ao Quiz</h1>
         <p>Insira seu nome para começar:</p>
         <input type="text" id="username" placeholder="Seu nome" aria-describedby="name-help">
-        <!-- Mensagem de erro (inicialmente oculta) -->
         <p id="name-help" style="color: #e74c3c; display: none;">
             O nome deve ter pelo menos 3 caracteres e conter apenas letras e espaços.
         </p>
-        <button onclick="openQuizOptions()">Iniciar</button> <!-- Abre o pop-up de quizzes -->
+        <button onclick="openQuizOptions()">Iniciar</button>
 
-        <!-- Botão para ver o ranking -->
         <button id="view-ranking-btn" style="margin-top: 20px;">Ver Ranking</button>
 
-        <!-- Popup de ranking -->
         <div id="ranking-popup" class="popup">
             <div class="popup-content">
                 <span id="close-popup">&times;</span>
                 <h2>Ranking dos Melhores</h2>
-                <ol id="ranking-list"></ol> <!-- Lista ordenada para exibir os rankings -->
+                <ol id="ranking-list"></ol>
             </div>
         </div>
     </div>
 
-    <!-- Script JavaScript -->
-    <script  type="module" src="./JavaScript/scriptpg.js"></script>
-
+    <script type="module" src="./JavaScript/scriptpg.js"></script>
 </body>
 </html>
